@@ -1,0 +1,28 @@
+/* Garante que o container ocupe a tela toda */
+.app-container {
+  height: 100vh;
+  width: 100%;
+}
+
+/* Define a largura fixa da sua sidebar */
+.app-container .sidebar {
+  width: 200px;
+}
+
+.app-container .sidebar-content {
+  display: flex;
+  justify-content: center;
+}
+
+.app-container button {
+  border-radius: 0px;
+}
+
+.app-container a{
+  text-decoration: none;
+}
+
+
+
+
+
