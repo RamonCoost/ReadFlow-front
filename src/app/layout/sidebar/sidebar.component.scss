@@ -1,28 +1,30 @@
-/* Garante que o container ocupe a tela toda */
-.app-container {
-  height: 100vh;
+.container-sidebar{
+  height: 100%;
   width: 100%;
+  // background-color: #A8ACAF;
 }
 
-/* Define a largura fixa da sua sidebar */
-.app-container .sidebar {
-  width: 200px;
+ .sidebar .divider {
+   margin-bottom: 32px;
 }
 
-.app-container .sidebar-content {
-  display: flex;
-  justify-content: center;
+ .container-sidebar .logo-img {
+  height: 55px;
+  width: auto;
+  max-width: 100%;
+  padding-top: 10px;
 }
 
-.app-container button {
+.container-sidebar .slogan{
+  font-size: small;
+  color: #A8ACAF;
+}
+
+.container-sidebar button{
+  width: 100%;
   border-radius: 0px;
+  justify-content: flex-start;
 }
-
-.app-container a{
-  text-decoration: none;
-}
-
-
 
 
 
