@@ -1,33 +1,46 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
-@use './style/theme-colors';
+@use './app/styles/theme-colors';
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
 
 
 html {
-  @include mat.theme((
-    color: (
-      theme-type: dark,
-      primary: theme-colors.$primary-palette,
-      tertiary: theme-colors.$tertiary-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
-}/* You can add global styles to this file, and also import other style files */
+  @include mat.theme((color: (primary: theme-colors.$primary-palette,
+        tertiary: theme-colors.$tertiary-palette,
+        theme-type: dark,
+      ),
+      typography: Lato,
+      density: 0,
+    ));
+}
 
-html, body { margin: 0; height: 100%; }
+/* You can add global styles to this file, and also import other style files */
 
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  margin: 0;
+  height: 100vh;
+  box-sizing: border-box;
+}
 
-.full-width{ width: 100%; }
+body {
+  margin: 0;
+  font-family: Lato, sans-serif
+}
 
-.padding-p{ padding: 8px !important; }
+.full-width {
+  width: 100%;
+}
 
-.padding-m{ padding: 16px !important; }
+.padding-p {
+  padding: 8px !important;
+}
 
-.padding-g{ padding: 24px !important; }
+.padding-m {
+  padding: 16px !important;
+}
 
-
-
+.padding-g {
+  padding: 24px !important;
+}

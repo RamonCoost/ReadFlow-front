@@ -1,3 +1,8 @@
-<app-header />
-<app-sidebar />
-<router-outlet/>
+<mat-sidenav-container class="app-container">
+    <mat-sidenav mode="side" opened="true" class="mat-sidebar">
+        <app-sidebar />
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet />
+    </mat-sidenav-content>
+</mat-sidenav-container>

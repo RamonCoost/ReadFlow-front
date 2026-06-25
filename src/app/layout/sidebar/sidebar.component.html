@@ -1,45 +1,52 @@
-<mat-sidenav-container class="app-container">
-  <!-- Sidebar Fixa -->
-  <mat-sidenav mode="side" opened="true" class="sidebar">
-    <mat-list class="padding-g">
-      <mat-list-item>
-        <button mat-button>
-          Dashboard
-          <mat-icon>dashboard</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        <button mat-button>
-          Livro
-          <mat-icon>book_5</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        <button mat-button>
-          Novo Livro
-          <mat-icon>add_2</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        <button mat-button>
-          Buscar
-          <mat-icon>search</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        <button mat-button>
-          Estatisticas
-          <mat-icon>bar_chart_4_bars </mat-icon>
-        </button>
-      </mat-list-item>
-    </mat-list>
-  </mat-sidenav>
+<mat-sidenav-container class="container-sidebar" >
+  <mat-list class="sidebar">
+    
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <span>
+          <img [src]="logo" alt="logo" class="logo-img">
+        </span>
+      </mat-toolbar-row>
+      <mat-toolbar-row>
+        <span class="slogan">Acompanhe sua jornada de leitura...</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
 
-  <!-- Conteúdo Principal da Página -->
-  <mat-sidenav-content class="sidebar-content">
-    <main class="page-body" class="padding-g">
-      <h1>Conteúdo Principal</h1>
-      <p>O seu conteúdo vai aqui...</p>
-    </main>
-  </mat-sidenav-content>
+    <mat-divider class="divider"></mat-divider>
+
+    <mat-list-item class="mat-list-button" >
+      <button mat-button routerLink="/dashboard">
+        Dashboard
+        <mat-icon>dashboard</mat-icon>
+      </button>
+    </mat-list-item>
+
+    <mat-list-item class="mat-list-button">
+      <button mat-button>
+        Livro
+        <mat-icon>book_5</mat-icon>
+      </button>
+    </mat-list-item>
+
+    <mat-list-item >
+      <button mat-button>
+        Novo Livro
+        <mat-icon>add_2</mat-icon>
+      </button>
+    </mat-list-item>
+
+    <mat-list-item >
+      <button mat-button> Buscar
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-list-item>
+
+    <mat-list-item class="mat-list-button">
+      <button mat-button>
+        Estatisticas
+        <mat-icon>bar_chart_4_bars </mat-icon>
+      </button>
+    </mat-list-item>
+
+  </mat-list>
 </mat-sidenav-container>
