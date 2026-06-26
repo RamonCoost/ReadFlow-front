@@ -1,0 +1,63 @@
+<div class="padding-g">
+    <mat-toolbar class="dashboard-toolbar">
+        <mat-toolbar-row>
+            <span>DASBOARD</span>
+        </mat-toolbar-row>
+        <mat-toolbar-row class="subtitle">
+            <span>Acompanhe seu progresso de leitura...</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <mat-card class="dashboard-card" appearance="outlined">
+        <mat-card-header class="dashboard-header">
+            <mat-card-title class="title">
+                <mat-icon class="icon">auto_stories</mat-icon>
+                Continuar Leitura
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-content">
+            <p>Você ainda não iniciou nenhuma leitura.</p>
+            <p>Adicione um livro para começar a acompanhar seu progresso.</p>
+        </mat-card-content>
+        <mat-card-footer>
+            <mat-card-actions class="dashboard-actions">
+                <button mat-raised-button class="button">Adiconar Livro</button>
+            </mat-card-actions>
+        </mat-card-footer>
+    </mat-card>
+    <br>
+    <div class="dashboard-cards">
+        <mat-card class="dashboard-card" appearance="outlined">
+            <mat-card-header class="dashboard-header">
+                <mat-card-title class="title">
+                    <mat-icon class="icon">collections_bookmark</mat-icon>
+                    Próximas leituras
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-content">
+                <p>Nenhum livro adicionado à lista de leitura</p>
+            </mat-card-content>
+            <mat-card-footer>
+                <mat-card-actions class="dashboard-actions">
+                    <button mat-raised-button class="button">Ver biblioteca</button>
+                </mat-card-actions>
+            </mat-card-footer>
+        </mat-card>
+
+        <mat-card class="dashboard-card" appearance="outlined">
+            <mat-card-header class="dashboard-header">
+                <mat-card-title class="title">
+                    <mat-icon class="icon">bar_chart</mat-icon>
+                   Resumo
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-content">
+                <span>Total de livros: 0 </span>
+                <span>Lendo: 0 </span>
+                <span>Quero ler: 0 </span>
+                <span>Concluídos: 0 </span>
+                <span>Abandonados: 0 </span>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
