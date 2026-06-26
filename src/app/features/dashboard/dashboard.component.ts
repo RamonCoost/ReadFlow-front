@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatCardModule} from '@angular/material/card';
-import { MatIcon } from "@angular/material/icon";
+import { MatToolbar, MatToolbarRow } from "@angular/material/toolbar";
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from "@angular/material/button";
+
 
 
 @Component({
@@ -9,7 +12,10 @@ import { MatIcon } from "@angular/material/icon";
   imports: [
     MatSidenavModule,
     MatCardModule,
-    MatIcon
+    MatToolbar,
+    MatIcon,
+    MatToolbarRow,
+    MatButton
 ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
