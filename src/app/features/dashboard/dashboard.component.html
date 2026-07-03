@@ -1,14 +1,14 @@
 <div class="padding-g">
     <mat-toolbar class="dashboard-toolbar">
         <mat-toolbar-row>
-            <span>DASBOARD</span>
+            <span>DASHBOARD</span>
         </mat-toolbar-row>
         <mat-toolbar-row class="subtitle">
             <span>Acompanhe seu progresso de leitura...</span>
         </mat-toolbar-row>
     </mat-toolbar>
 
-    <mat-card class="dashboard-card" appearance="outlined">
+    <mat-card class="dashboard-card">
         <mat-card-header class="dashboard-header">
             <mat-card-title class="title">
                 <mat-icon class="icon">auto_stories</mat-icon>
@@ -16,8 +16,13 @@
             </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-content">
-            <p>Você ainda não iniciou nenhuma leitura.</p>
-            <p>Adicione um livro para começar a acompanhar seu progresso.</p>
+            @if (continuarLeitura) {
+                    <span class="summary">{{continuarLeitura.titulo}} - </span>
+                    <span class="summary"> {{continuarLeitura.paginasLidas}} de {{continuarLeitura.totalPaginas}} páginas</span>
+            }
+            @else {
+                <span class="summary">Não há leituras em andamento</span>
+            }
         </mat-card-content>
         <mat-card-footer>
             <mat-card-actions class="dashboard-actions">
@@ -27,7 +32,7 @@
     </mat-card>
     <br>
     <div class="dashboard-cards">
-        <mat-card class="dashboard-card" appearance="outlined">
+        <mat-card class="dashboard-card" >
             <mat-card-header class="dashboard-header">
                 <mat-card-title class="title">
                     <mat-icon class="icon">collections_bookmark</mat-icon>
@@ -35,7 +40,16 @@
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content class="dashboard-content">
-                <p>Nenhum livro adicionado à lista de leitura</p>
+                @if (proximasLeituras.length > 0 ) {
+                    @for (book of proximasLeituras; track book.id) {
+                          <span class="summary">{{book.titulo}} - {{book.autor}}</span>
+                          <span> </span>
+                    }
+                }
+                @else {
+                <span class="summary">Não há livros na fila</span>
+                }
+
             </mat-card-content>
             <mat-card-footer>
                 <mat-card-actions class="dashboard-actions">
@@ -44,19 +58,19 @@
             </mat-card-footer>
         </mat-card>
 
-        <mat-card class="dashboard-card" appearance="outlined">
+        <mat-card class="dashboard-card" >
             <mat-card-header class="dashboard-header">
                 <mat-card-title class="title">
                     <mat-icon class="icon">bar_chart</mat-icon>
-                   Resumo
+                    Resumo
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content class="dashboard-content">
-                <span>Total de livros: 0 </span>
-                <span>Lendo: 0 </span>
-                <span>Quero ler: 0 </span>
-                <span>Concluídos: 0 </span>
-                <span>Abandonados: 0 </span>
+                <span class="summary">Total de livros: {{totalLivros}} </span>
+                <span class="summary">Lendo: {{totalLendo}} </span>
+                <span class="summary">Quero ler: {{totalQueroLer}} </span>
+                <span class="summary">Concluídos: {{totalConcluidos}} </span>
+                <span class="summary">Abandonados: {{totalAbandonados}} </span>
             </mat-card-content>
         </mat-card>
     </div>
