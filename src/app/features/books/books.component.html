@@ -1,0 +1,64 @@
+<div class="book-container">
+    <mat-toolbar class="book-toolbar">
+        <mat-toolbar-row>
+            <h2 class="toolbar-title">BIBLIOTECA</h2>
+        </mat-toolbar-row>
+        <mat-toolbar-row class="toolbar-subtitle-row">
+            <span class="toolbar-subtitle">Navegue pelos livros</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    @if (listBook.length) {
+    <div class="grid-card">
+        @for (book of listBook; track book.id) {
+        <mat-card class="custon-card">
+            <mat-card-header class="card-header">
+                <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
+                <mat-card-title class="card-title">{{ book.titulo }}</mat-card-title>
+                <mat-card-subtitle class="card-subtitle">{{ book.autor }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content class="card-body">
+                <mat-list>
+                    <mat-list-item>
+                        <span> {{book.paginasLidas}} / {{book.totalPaginas}} paginas</span>
+                        <mat-progress-bar mode="determinate" [value]="progressoLeituraAtual(book)" class="custom-progress-bar"></mat-progress-bar>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <span>{{mapStatus[book.statusLeitura]}}</span>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <span class="id">{{book.id}}</span>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+        }
+    </div>
+    }@else{
+    <div class="grid-card">
+        <mat-card class="custon-card">
+            <mat-card-header class="card-header">
+                <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
+                <mat-card-title class="card-title">Titulo Livro</mat-card-title>
+                <mat-card-subtitle class="card-subtitle">autor</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content class="card-body">
+                <mat-list>
+                    <mat-list-item>
+                        <span>0 / 0</span>
+                        <mat-progress-bar mode="determinate" value="0" class="custom-progress-bar"></mat-progress-bar>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <span>--</span>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <span class="id">*---*</span>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    }
+</div>

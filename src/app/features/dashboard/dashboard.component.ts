@@ -9,6 +9,9 @@ import { BookResponse } from '../../shared/models/book-response';
 import { StatusLeitura } from '../../shared/enums/status-leitura';
 import { NextReading } from '../../shared/models/next-reading';
 import { ContinueReading } from '../../shared/models/continue.reading';
+import { RouterLink } from "@angular/router";
+import { MatListModule } from '@angular/material/list';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +22,10 @@ import { ContinueReading } from '../../shared/models/continue.reading';
     MatIcon,
     MatToolbarRow,
     MatButton,
-  ],
+    RouterLink,
+    MatListModule,
+    MatProgressBarModule
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -79,4 +85,18 @@ export class DashboardComponent implements OnInit {
       this.continuarLeitura = null;
     }
   }
+
+ 
+get progressoLeituraAtual(): number {
+  
+  if (!this.continuarLeitura || !this.continuarLeitura.totalPaginas) {
+    return 0;
+  }
+
+  const percentual = (this.continuarLeitura.paginasLidas * 100) / this.continuarLeitura.totalPaginas;
+  
+
+  return Math.min(100, Math.round(percentual));
+}
+
 }
