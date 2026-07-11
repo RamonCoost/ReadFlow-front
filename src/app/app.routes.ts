@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+import { BooksComponent } from './features/books/books.component';
 
 
 
@@ -9,16 +10,19 @@ export const routes: Routes = [
         path: '',
         component: MainLayoutComponent,
         children: [
+              {
+                path: '',
+                redirectTo: 'dashboard',
+                pathMatch: 'full'
+            },
             {
                 path: 'dashboard',
                 component: DashboardComponent
             },
             {
-                path: '',
-                redirectTo: 'dahboard',
-                pathMatch: 'full'
+                path: 'books',
+                component: BooksComponent
             }
-
         ]
     }
 ];
