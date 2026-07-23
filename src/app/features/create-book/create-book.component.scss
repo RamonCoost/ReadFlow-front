@@ -1,0 +1,106 @@
+.container-add-book .form-toolbar {
+    background: transparent;
+    padding: 24px 24px 0 24px;
+    height: auto;
+}
+
+.container-add-book .toolbar-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #E6E7E8;
+    margin: 0;
+}
+
+.container-add-book .toolbar-subtitle {
+    font-size: 0.95rem;
+    color: #A8ACAF;
+}
+
+.container-add-book .toolbar-subtitle-row {
+    height: auto;
+    margin-top: 8px;
+}
+
+.container-add-book .box-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 32px;
+}
+
+
+.container-add-book .form-card {
+    background-color: #2A2E31;
+    border: 1px solid #3A3F43;
+    border-radius: 8px;
+    min-height: 260px;
+    box-shadow: none;
+    padding: 8px;
+    width: 600px;
+}
+
+.container-add-book .card-header{
+    padding: 24px 24px 16px 24px;
+
+    .card-icon{
+        color: #8A7A55;
+    }
+
+    .card-title{
+        color: #E6E7E8;
+        font-size: 1.15rem;
+        font-weight: 600;
+    }
+
+    .card-subtitle{
+        color: #A8ACAF;
+        font-size: 0.9rem;
+        margin-top: 4px;
+    }
+}
+
+.container-add-book .body-form {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 8px;
+
+}
+
+.container-add-book .titulo {
+    grid-area: 1/1/2/-1;
+}
+
+.container-add-book .autor {
+    grid-area: 2/1/2/-1;
+}
+
+.container-add-book .total-paginas {
+    grid-area: 3/1/4/-2;
+}
+
+.container-add-book .paginas-lidas {
+    grid-area: 3/2/-1/-1;
+}
+
+.container-add-book .form-bnt {
+    margin: 8px;
+    border-radius: 8px;
+    width: 100%;
+    border-color: #8A7A55;
+    color: #8A7A55;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+
+    &:hover{
+        background-color: rgba(138, 122, 85, 0.08);
+    }
+}
+
+.container-add-book .mat-mdc-text-field-wrapper{
+    background-color: #2A2E31;
+    border: 1px solid #3A3F43;
+    border-radius: 8px;   
+}

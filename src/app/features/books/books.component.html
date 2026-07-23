@@ -3,14 +3,34 @@
         <mat-toolbar-row>
             <h2 class="toolbar-title">BIBLIOTECA</h2>
         </mat-toolbar-row>
+
         <mat-toolbar-row class="toolbar-subtitle-row">
             <span class="toolbar-subtitle">Navegue pelos livros</span>
         </mat-toolbar-row>
     </mat-toolbar>
 
-    @if (listBook.length) {
+    <div class="search-field">
+        <mat-form-field class="search-book" appearance="fill">
+            <mat-label>Pesquisar</mat-label>
+            <input matInput placeholder="Encontre seu titulo ou autor">
+            <mat-icon matPrefix class="search-icon">search</mat-icon>
+        </mat-form-field>
+
+    </div>
+
+
+    <div class="status-book">
+        <button mat-flat-button (click)="mostrarTodosLivros()" class="bnt">Todos</button>
+        <button mat-flat-button (click)="filtrarPorStatus(StatusLeitura.QUERO_LER)" class="bnt"> Proximas
+            Leituras</button>
+        <button mat-flat-button (click)="filtrarPorStatus(StatusLeitura.LENDO)" class="bnt">Leituras Atuais</button>
+        <button mat-flat-button (click)="filtrarPorStatus(StatusLeitura.CONCLUIDO)" class="bnt">Concluidos</button>
+        <button mat-flat-button (click)="filtrarPorStatus(StatusLeitura.ABANDONEI)" class="bnt">Abandonados</button>
+    </div>
+
+    @if (listBooks) {
     <div class="grid-card">
-        @for (book of listBook; track book.id) {
+        @for (book of filteredBooks; track book.statusLeitura) {
         <mat-card class="custon-card">
             <mat-card-header class="card-header">
                 <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
@@ -19,10 +39,12 @@
             </mat-card-header>
 
             <mat-card-content class="card-body">
+
                 <mat-list>
                     <mat-list-item>
                         <span> {{book.paginasLidas}} / {{book.totalPaginas}} paginas</span>
-                        <mat-progress-bar mode="determinate" [value]="progressoLeituraAtual(book)" class="custom-progress-bar"></mat-progress-bar>
+                        <mat-progress-bar mode="determinate" [value]="progressoLeituraAtual(book)"
+                            class="custom-progress-bar"></mat-progress-bar>
                     </mat-list-item>
                     <mat-list-item>
                         <span>{{mapStatus[book.statusLeitura]}}</span>
