@@ -1,16 +1,10 @@
-.dashboard-container{
-    min-height: 100vh;
-    background-color: #181A1B;
-    color: #E6E7E8;
-}
-
-.dashboard-container .dashboard-toolbar{
+.dashboard-container .dashboard-toolbar {
     background: transparent;
     padding: 24px 24px 0 24px;
     height: auto;
 }
 
-.dashboard-container .toolbar-title{
+.dashboard-container .toolbar-title {
     font-size: 1.8rem;
     font-weight: 700;
     letter-spacing: 1px;
@@ -18,12 +12,12 @@
     margin: 0;
 }
 
-.dashboard-container  .toolbar-subtitle-row{
-   height: auto;
-   margin-top: 8px;
+.dashboard-container .toolbar-subtitle-row {
+    height: auto;
+    margin-top: 8px;
 }
 
-.dashboard-container .toolbar-subtitle{
+.dashboard-container .toolbar-subtitle {
     font-size: 0.95rem;
     color: #A8ACAF;
 }
@@ -39,7 +33,7 @@
 
 }
 
-.dashboard-container .custom-card{
+.dashboard-container .custom-card {
     background-color: #2A2E31;
     border: 1px solid #3A3F43;
     border-radius: 8px;
@@ -51,45 +45,45 @@
     justify-content: space-between;
 }
 
-.dashboard-container .card-header{
+.dashboard-container .card-header {
     padding: 24px 24px 16px 24px;
 
-    .card-icon{
+    .card-icon {
         color: #8A7A55;
         margin-right: 16px;
     }
 
-    .card-title{
+    .card-title {
         color: #E6E7E8;
         font-size: 1.15rem;
         font-weight: 600;
     }
 
-    .card-subtitle{
+    .card-subtitle {
         color: #A8ACAF;
         font-size: 0.9rem;
         margin-top: 4px;
     }
 }
 
-.dashboard-container .card-body{
+.dashboard-container .card-body {
     padding: 0 24px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
-.dashboard-container .progress-box{
+.dashboard-container .progress-box {
     margin-top: 8px;
 
-    .progress-text{
+    .progress-text {
         font-size: 0.8rem;
         color: #A8ACAF;
         display: block;
         margin-bottom: 8px;
     }
 
-    .custom-progress-bar{
+    .custom-progress-bar {
         height: 6px;
         background-color: #3A3F43;
         border-radius: 4px;
@@ -97,7 +91,7 @@
         overflow: hidden;
         margin-top: 8px;
 
-        &::after{
+        &::after {
             content: '';
             left: 0;
             top: 0;
@@ -109,94 +103,86 @@
     }
 }
 
-.dashboard-container .empty-state{
+.dashboard-container .empty-state {
     color: #6F7478;
     font-style: italic;
     font-size: 0.85rem;
     margin-top: 8px;
 }
 
-.dashboard-container .card-actions{
-    padding: 0 24px 24px 24px ;
+.dashboard-container .card-actions {
+    padding: 0 24px 24px 24px;
     display: flex;
     justify-content: flex-end;
     background: transparent;
 }
 
-.dashboard-container .bnt-primary{
+.dashboard-container .bnt-primary {
     border-color: #8A7A55;
     color: #8A7A55;
     font-weight: 500;
     letter-spacing: 0.5px;
+    border-radius: 8px;
 
-    &:hover{
+    &:hover {
         background-color: rgba(138, 122, 85, 0.08);
     }
 }
 
 .dashboard-container .custom-mat-list {
-  background: transparent ;
-  padding: 0 ;
-
-  .custom-list-item {
-    height: auto;
-    margin-bottom: 12px;
+    background: transparent;
     padding: 0;
 
-    &:last-child {
-      margin-bottom: 0;
-    }
+    .custom-list-item {
+        height: auto;
+        margin-bottom: 12px;
+        padding: 0;
 
-    .book-title {
-      color: #E6E7E8;
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-
-    .book-author {
-      color: #A8ACAF;
-      font-size: 0.8rem;
-    }
-  }
-}
-
-.dashboard-container .bnt-link{
-       color: #A8ACAF;
-        font-size: 0.8rem;
-        letter-spacing: 0.5px;
-
-        &:hover{
-            background-color: rgba(138, 122, 85, 0.05);
+        &:last-child {
+            margin-bottom: 0;
         }
+
+        .book-title {
+            color: #E6E7E8;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .book-author {
+            color: #A8ACAF;
+            font-size: 0.8rem;
+        }
+    }
 }
 
-.dashboard-container .summary-body{
+
+.dashboard-container .summary-body {
     justify-content: space-between;
     height: 100%;
     padding-bottom: 24px;
 }
 
-.dashboard-container .kpi-main-block{
+.dashboard-container .kpi-main-block {
     display: flex;
     align-items: baseline;
     gap: 12px;
     margin-top: 8px;
 
-    .kpi-number{
+    .kpi-number {
         font-size: 3.5rem;
         font-weight: 700;
         color: #8A7A55;
         line-height: 1;
     }
 
-    .kpi-label{
+    .kpi-label {
         color: #A8ACAF;
         font-size: 0.9rem;
         font-weight: 500;
     }
 }
 
-.dashboard-container .kpi-sub-stats{
+.dashboard-container .kpi-sub-stats {
     display: flex;
     justify-content: space-between;
     gap: 8px;
@@ -205,15 +191,14 @@
     padding-top: 16px;
     margin-top: auto;
 
-    .stats-item{
+    .stats-item {
         font-size: 0.8rem;
         color: #A8ACAF;
     }
 
-    strong{
+    strong {
         color: #E6E7E8;
         font-weight: 600;
         margin-left: 2px;
     }
 }
-

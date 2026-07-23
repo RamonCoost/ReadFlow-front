@@ -1,0 +1,82 @@
+<div class="container-add-book">
+    <mat-toolbar class="form-toolbar">
+        <mat-toolbar-row>
+            <h2 class="toolbar-title">NOVO LIVRO</h2>
+        </mat-toolbar-row>
+        <mat-toolbar-row class="toolbar-subtitle-row">
+            <span class="toolbar-subtitle">Adicione um novo livro no seu ReadFlow</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div class="box-form">
+        <mat-card class="form-card">
+            <mat-card-header class="card-header">
+                <mat-icon mat-card-avatar class="card-icon">add_2</mat-icon>
+                <mat-card-title class="card-title">Adicione um novo livro</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <form [formGroup]="form" class="body-form">
+                    <mat-form-field class="titulo">
+                        <mat-label>Titulo</mat-label>
+                        <input matInput formControlName="titulo" placeholder="Titulo do livro">
+                        @if (titulo?.hasError('required') && titulo?.touched) {
+                        <mat-error> O campo "Titulo" é obrigatório</mat-error>
+                        }
+                        @if (titulo?.hasError('minlength')) {
+                        <mat-error> O titulo do livro deve conter mais de 3 letras/número</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field class="autor">
+                        <mat-label>autor</mat-label>
+                        <input matInput formControlName="autor" placeholder="Nome do Autor">
+                        @if(autor?.hasError('required') && autor?.touched){
+                        <mat-error> O campo "Autor" é obrigatório</mat-error>
+                        }
+                        @if (autor?.hasError('minlength')) {
+                        <mat-error> O nome do autor deve ter mais de 3 letras</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field class="total-paginas">
+                        <mat-label>Total de Páginas</mat-label>
+                        <input matInput formControlName="totalPaginas" placeholder="EX: 123">
+                        @if (totalPaginas?.hasError('required') && totalPaginas?.touched) {
+                        <mat-error> O campo "Total de Páginas" é obrigatório </mat-error>
+                        }
+                        @if (totalPaginas?.hasError('min')) {
+                        <mat-error> A quantidade do campo "Total de Páginas" deve ser maior que 0 </mat-error>
+                        }
+                        @if (totalPaginas?.hasError('pattern')) {
+                        <mat-error> O campo "Total de Paginas" deve não conter letras ou caracteres especiais
+                        </mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field class="paginas-lidas" >
+                        <mat-label>Páginas Lidas</mat-label>
+                        <input matInput formControlName="paginasLidas" placeholder="EX: 0" [errorStateMatcher]="erroPaginasLidas">
+                        @if (paginasLidas?.hasError('required') && paginasLidas?.touched) {
+                        <mat-error> O campo "Páginas Lidas" é obrigatório </mat-error>
+                        }
+                        @if (paginasLidas?.hasError('min')) {
+                        <mat-error> A quantidade do campo "Páginas Lidas" deve ser positivo</mat-error>
+                        }
+                        @if (paginasLidas?.hasError('pattern')) {
+                        <mat-error> O campo "Páginas Lidas" deve não conter letras ou caracteres especiais </mat-error>
+                        }
+                        @if (form.hasError('paginasLidasMaiorQueTotal') && form.touched) {
+                        <mat-error> Páginas lidas não pode ser maior que o total de páginas.
+                        </mat-error>
+                        }
+                    </mat-form-field>
+                </form>
+            </mat-card-content>
+
+            <mat-card-actions>
+                <button mat-stroked-button class="form-bnt" [disabled]="form.invalid" (click)="submit()">Adicionar Livro</button>
+            </mat-card-actions>
+
+        </mat-card>
+    </div>
+</div>
