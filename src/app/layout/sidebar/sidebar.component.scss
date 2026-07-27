@@ -1,14 +1,14 @@
-.container-sidebar{
+.container-sidebar {
   height: 100%;
   width: 100%;
-  
+
 }
 
- .sidebar .divider {
-   margin-bottom: 32px;
+.sidebar .divider {
+  margin-bottom: 32px;
 }
 
- .container-sidebar .logo-img {
+.container-sidebar .logo-img {
   height: 55px;
   width: auto;
   max-width: 100%;
@@ -16,17 +16,20 @@
 
 }
 
-.container-sidebar .slogan{
+.container-sidebar .slogan {
   font-size: small;
   color: #A8ACAF;
-  
+
 }
 
-.container-sidebar button{
+.container-sidebar button {
   width: 100%;
   border-radius: 0px;
   justify-content: flex-start;
 }
 
-
-
+.container-sidebar .ativo {
+  background-color: #BF8F3F;
+  color: #E6E7E8;
+  border-radius: 8px;
+}

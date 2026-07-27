@@ -26,14 +26,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-      margin: 24px;
+    margin: 24px;
 }
 
 
 .book-container .search-book {
     width: 50%;
-  
-    
+
+
     .mat-mdc-text-field-wrapper {
         border-radius: 10px;
     }
@@ -52,7 +52,14 @@
 
     .bnt {
         border-radius: 8px;
+        transition: background-color 0.2s ease, color 0.2s ease;
     }
+
+    .bnt.ativo {
+        background-color: #BF8F3F;
+        color: #E6E7E8;
+    }
+
 }
 
 
@@ -92,8 +99,12 @@
         margin-top: 4px;
     }
 
+    .status {
+        color: #E6E7E8;
+    }
+
     .id {
-        // color:#A8ACAF;
+        color: #A8ACAF;
         display: flex;
         align-items: center;
         justify-content: end;
