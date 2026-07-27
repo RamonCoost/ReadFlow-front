@@ -8,11 +8,12 @@ import { BookResponse } from '../../shared/models/book-response';
 import { BookService } from '../../core/service/book.service';
 import { mapStatus } from '../../shared/enums/status-leitura-labels'
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { StatusLeitura } from '../../shared/enums/status-leitura';
+
 
 @Component({
   selector: 'app-books',
@@ -27,7 +28,8 @@ import { StatusLeitura } from '../../shared/enums/status-leitura';
     FormsModule,
     MatButtonModule,
     MatChipsModule,
-],
+    ReactiveFormsModule
+  ],
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -36,8 +38,10 @@ export class BooksComponent implements OnInit {
 
   listBooks: BookResponse[] = [];
   filteredBooks: BookResponse[] = [];
-  readonly StatusLeitura = StatusLeitura;
+  filtroAtivo: StatusLeitura | 'TODOS' = 'TODOS';
   mapStatus = mapStatus;
+  searchControl = new FormControl('');
+  readonly StatusLeitura = StatusLeitura;
 
   constructor(private bookService: BookService) {
   }
@@ -45,6 +49,11 @@ export class BooksComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarLivros();
+
+    this.searchControl.valueChanges.subscribe(() => {
+      this.aplicarFiltros();
+    })
+
   }
 
 
@@ -55,12 +64,14 @@ export class BooksComponent implements OnInit {
     }));
   }
 
-  filtrarPorStatus(status: StatusLeitura){
-    this.filteredBooks = this.listBooks.filter(book => book.statusLeitura === status);
+  filtrarPorStatus(status: StatusLeitura | 'TODOS') {
+    this.filtroAtivo = status;
+    this.aplicarFiltros();
   }
 
-  mostrarTodosLivros(){
-    this.filteredBooks = this.listBooks;
+  mostrarTodosLivros() {
+    this.filtroAtivo = 'TODOS';
+    this.aplicarFiltros();
   }
 
   progressoLeituraAtual(book: BookResponse): number {
@@ -73,4 +84,22 @@ export class BooksComponent implements OnInit {
     return Math.min(100, Math.round(percentual))
   }
 
+  aplicarFiltros() {
+    let resultado = this.listBooks;
+    
+    if (this.filtroAtivo !== 'TODOS') {
+      resultado = resultado.filter(book => book.statusLeitura === this.filtroAtivo)
+    }
+    
+    let pesquisaTexto = this.searchControl.value?.trim().toLowerCase() ?? '';
+
+    if (pesquisaTexto) {
+      resultado = resultado.filter(book =>
+        book.titulo.trim().toLowerCase().includes(pesquisaTexto)
+        || book.autor.trim().toLowerCase().includes(pesquisaTexto)
+        || book.id.toString().includes(pesquisaTexto)
+      );
+    }
+    this.filteredBooks = resultado;
+  }
 }
