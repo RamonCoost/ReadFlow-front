@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { EditBookDialogComponent } from '../edit-book-dialog/edit-book-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
+import { DeleteBookDialogComponent } from '../delete-book-dialog/delete-book-dialog.component';
 
 
 
@@ -112,6 +113,17 @@ export class BooksComponent implements OnInit {
 
   editarLivro(book: BookResponse) {
     const dialogRef = this.matDialog.open(EditBookDialogComponent, {
+      data: book
+    });
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado) {
+        this.carregarLivros();
+      }
+    })
+  }
+
+  deletarLivro(book: BookResponse) {
+    const dialogRef = this.matDialog.open(DeleteBookDialogComponent, {
       data: book
     });
     dialogRef.afterClosed().subscribe(resultado => {

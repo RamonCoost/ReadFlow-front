@@ -1,0 +1,23 @@
+<div class="card-container">
+    <mat-card class="card-body">
+        <mat-card-header>
+            <mat-card-title mat-dialog-title>
+                <span class="spn">Excluir Livro</span>
+            </mat-card-title>
+        </mat-card-header>
+       
+        <mat-card-content mat-dialog-content>
+             <h3>Tem certeza que deseja excluir esse livro?</h3>
+            <mat-list>
+                <mat-card-title class="titulo">{{book.titulo}}</mat-card-title>
+                <mat-card-subtitle class="autor">{{book.autor}}</mat-card-subtitle>     
+            </mat-list>
+            <h3>Essa ação não poderá ser desfeita!</h3>
+        </mat-card-content>
+        <mat-dialog-actions>
+            <button mat-button mat-dialog-close class="cancelar">Cancelar</button>
+            <button mat-button cdkFocusInitial (click)="deletarLivro()" class="bnt">Excluir</button>
+        </mat-dialog-actions>
+    </mat-card>
+
+</div>

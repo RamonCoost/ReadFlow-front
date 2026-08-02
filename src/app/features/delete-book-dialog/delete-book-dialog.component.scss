@@ -1,0 +1,38 @@
+.card-container .card-body {
+    box-sizing: border-box;
+    background-color: #2A2E31;
+    border: 1px solid #3A3F43;
+    border-radius: 8px;
+    min-height: 260px;
+    box-shadow: none;
+    padding: 8px;
+
+    .spn {
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #E6E7E8;
+        margin: 0
+    }
+
+    .titulo {
+        color: #E6E7E8;
+        font-size: 1.15rem;
+        font-weight: 600;
+    }
+
+    .autor {
+          color: #A8ACAF;
+        font-size: 0.9rem;
+        margin-top: 4px;
+    }
+}
+
+.card-container .cancelar{
+    border-radius: 10px;
+}
+
+.card-container .bnt{
+    color: #B85C5C;
+    border-radius: 10px;
+}
