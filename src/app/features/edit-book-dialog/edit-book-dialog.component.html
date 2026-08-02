@@ -1,0 +1,32 @@
+<div class="form-container">
+    <h2 mat-dialog-title class="title"> Editar Livro</h2>
+    <mat-dialog-content>
+        <form [formGroup]="form" class="form-grid">
+            <mat-form-field class="titulo">
+                <mat-label>Titulo</mat-label>
+                <input matInput formControlName="titulo">
+            </mat-form-field>
+
+            <mat-form-field class="autor">
+                <mat-label>Autor</mat-label>
+                <input matInput formControlName="autor">
+            </mat-form-field>
+
+            <mat-form-field class="total-paginas">
+                <mat-label>Total de Páginas</mat-label>
+                <input  matInput formControlName="totalPaginas">
+            </mat-form-field>
+
+            <mat-form-field class="paginas-lidas">
+                <mat-label>Páginas Lidas</mat-label>
+                <input matInput formControlName="paginasLidas">
+            </mat-form-field> 
+            <mat-checkbox formControlName="abandonado">Abandonado</mat-checkbox>
+        </form>
+    </mat-dialog-content>
+   
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close class="bnt">Cancelar</button>
+        <button mat-button cdkFocusInitial [disabled]="form.invalid" class="bnt" (click)="salvarLivroAtualizado()">Salvar</button>
+    </mat-dialog-actions>
+</div>

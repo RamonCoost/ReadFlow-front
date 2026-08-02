@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -13,6 +13,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { StatusLeitura } from '../../shared/enums/status-leitura';
+import { MatMenuModule } from '@angular/material/menu';
+import { EditBookDialogComponent } from '../edit-book-dialog/edit-book-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
+
 
 
 @Component({
@@ -28,7 +33,9 @@ import { StatusLeitura } from '../../shared/enums/status-leitura';
     FormsModule,
     MatButtonModule,
     MatChipsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatMenuModule,
   ],
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
@@ -43,7 +50,7 @@ export class BooksComponent implements OnInit {
   searchControl = new FormControl('');
   readonly StatusLeitura = StatusLeitura;
 
-  constructor(private bookService: BookService) {
+  constructor(private bookService: BookService, private matDialog: MatDialog) {
   }
 
 
@@ -60,7 +67,7 @@ export class BooksComponent implements OnInit {
   carregarLivros() {
     this.bookService.listarLivros().subscribe((book => {
       this.listBooks = book;
-      this.filteredBooks = this.listBooks;
+      this.aplicarFiltros();
     }));
   }
 
@@ -86,11 +93,11 @@ export class BooksComponent implements OnInit {
 
   aplicarFiltros() {
     let resultado = this.listBooks;
-    
+
     if (this.filtroAtivo !== 'TODOS') {
       resultado = resultado.filter(book => book.statusLeitura === this.filtroAtivo)
     }
-    
+
     let pesquisaTexto = this.searchControl.value?.trim().toLowerCase() ?? '';
 
     if (pesquisaTexto) {
@@ -101,5 +108,16 @@ export class BooksComponent implements OnInit {
       );
     }
     this.filteredBooks = resultado;
+  }
+
+  editarLivro(book: BookResponse) {
+    const dialogRef = this.matDialog.open(EditBookDialogComponent, {
+      data: book
+    });
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado) {
+        this.carregarLivros();
+      }
+    })
   }
 }

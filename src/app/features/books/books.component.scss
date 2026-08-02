@@ -82,10 +82,13 @@
     flex-direction: column;
     justify-content: space-between;
 
+
     .card-icon {
         color: #8A7A55;
         margin-right: 16px;
     }
+
+
 
     .card-title {
         color: #E6E7E8;
@@ -103,11 +106,23 @@
         color: #E6E7E8;
     }
 
-    .id {
-        color: #A8ACAF;
+
+    .card-actions {
         display: flex;
         align-items: center;
         justify-content: end;
-    }
+        margin: 8px;
+        padding: 8px;
+        gap: 16px;
 
+        .delete {
+            color: #c85a54;
+            border-radius: 10px;
+        }
+
+        .edit {
+            color: #BF8F3F;
+            border-radius: 10px;
+        }
+    }
 }

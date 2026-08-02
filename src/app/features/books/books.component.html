@@ -18,11 +18,16 @@
     </div>
 
     <div class="status-book">
-        <button mat-flat-button [class.ativo]="filtroAtivo === 'TODOS'" (click)="mostrarTodosLivros()" class="bnt">Todos</button>
-        <button mat-flat-button [class.ativo]="filtroAtivo === StatusLeitura.QUERO_LER" (click)="filtrarPorStatus(StatusLeitura.QUERO_LER)" class="bnt"> ProximasLeituras</button>
-        <button mat-flat-button [class.ativo]="filtroAtivo === StatusLeitura.LENDO " (click)="filtrarPorStatus(StatusLeitura.LENDO)" class="bnt">Leituras Atuais</button>
-        <button mat-flat-button [class.ativo]="filtroAtivo === StatusLeitura.CONCLUIDO " (click)="filtrarPorStatus(StatusLeitura.CONCLUIDO)" class="bnt">Concluidos</button>
-        <button mat-flat-button [class.ativo]="filtroAtivo === StatusLeitura.ABANDONEI " (click)="filtrarPorStatus(StatusLeitura.ABANDONEI)" class="bnt">Abandonados</button>
+        <button mat-flat-button [class.ativo]="filtroAtivo === 'TODOS'" (click)="mostrarTodosLivros()"
+            class="bnt">Todos</button>
+        <button mat-flat-button [class.ativo]="filtroAtivo === StatusLeitura.QUERO_LER"
+            (click)="filtrarPorStatus(StatusLeitura.QUERO_LER)" class="bnt"> ProximasLeituras</button>
+        <button mat-flat-button [class.ativo]="filtroAtivo === StatusLeitura.LENDO "
+            (click)="filtrarPorStatus(StatusLeitura.LENDO)" class="bnt">Leituras Atuais</button>
+        <button mat-flat-button [class.ativo]="filtroAtivo === StatusLeitura.CONCLUIDO "
+            (click)="filtrarPorStatus(StatusLeitura.CONCLUIDO)" class="bnt">Concluidos</button>
+        <button mat-flat-button [class.ativo]="filtroAtivo === StatusLeitura.ABANDONEI "
+            (click)="filtrarPorStatus(StatusLeitura.ABANDONEI)" class="bnt">Abandonados</button>
     </div>
 
     @if (listBooks) {
@@ -34,7 +39,6 @@
                 <mat-card-title class="card-title">{{ book.titulo }}</mat-card-title>
                 <mat-card-subtitle class="card-subtitle">{{ book.autor }}</mat-card-subtitle>
             </mat-card-header>
-
             <mat-card-content class="card-body">
 
                 <mat-list>
@@ -46,18 +50,27 @@
                     <mat-list-item>
                         <span class="status">{{mapStatus[book.statusLeitura]}}</span>
                     </mat-list-item>
-                    <mat-list-item>
-                        <span class="id">{{book.id}}</span>
-                    </mat-list-item>
+                    
                 </mat-list>
             </mat-card-content>
+                <div class="card-actions">
+                <button mat-button class="edit" (click)="editarLivro(book)">
+                    <mat-icon>edit</mat-icon>
+                    Editar
+                </button>
+                <button mat-button class="delete">
+                    <mat-icon>delete</mat-icon>
+                    Excluir
+                </button>
+            </div>
+              
         </mat-card>
         }
     </div>
     }@else{
     <div class="grid-card">
         <mat-card class="custon-card">
-            <mat-card-header class="card-header">
+            <mat-card-header>
                 <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
                 <mat-card-title class="card-title">Titulo Livro</mat-card-title>
                 <mat-card-subtitle class="card-subtitle">autor</mat-card-subtitle>
