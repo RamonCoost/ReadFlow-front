@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { BookResponse } from '../../shared/models/book-response';
@@ -25,5 +25,9 @@ export class BookService {
 
   atualizarLivro(id: number, body: UpdateBookRequest): Observable<BookResponse>{
     return this.http.put<BookResponse>(`${this.url}/livros/${id}`, body)
+  }
+
+  deletarLivro(id: number): Observable<void>{
+   return this.http.delete<void>(`${this.url}/livros/${id}`)
   }
 }

@@ -50,7 +50,6 @@ export class EditBookDialogComponent {
 
   salvarLivroAtualizado() {
     const formData = this.form.value;
-    console.log(this.form.value);
     this.bookService.atualizarLivro(this.book.id, formData).subscribe({
         next: (response) => {
         this.dialogRef.close(response)
