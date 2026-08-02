@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { BookResponse } from '../../shared/models/book-response';
 import { Observable } from 'rxjs';
 import { CreateBookRequest } from '../../shared/models/create-book-request';
+import { UpdateBookRequest } from '../../shared/models/update-book-request';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,9 @@ export class BookService {
 
   criarLivro(body: CreateBookRequest): Observable<BookResponse> {
     return this.http.post<BookResponse>(`${this.url}/livros`, body)
+  }
+
+  atualizarLivro(id: number, body: UpdateBookRequest): Observable<BookResponse>{
+    return this.http.put<BookResponse>(`${this.url}/livros/${id}`, body)
   }
 }
