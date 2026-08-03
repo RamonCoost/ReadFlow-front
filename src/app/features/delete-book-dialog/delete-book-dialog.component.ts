@@ -18,7 +18,6 @@ import { MatLabel } from '@angular/material/form-field';
     MatButton,
     MatDialogActions,
     MatListModule,
-    MatLabel
 ],
   templateUrl: './delete-book-dialog.component.html',
   styleUrl: './delete-book-dialog.component.scss'
