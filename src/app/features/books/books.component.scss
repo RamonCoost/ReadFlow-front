@@ -126,3 +126,33 @@
         }
     }
 }
+
+// NOTEBOOK / TABLET
+@media (max-width: 1200px) {
+    .book-container .grid-card {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+     .book-container .search-book{
+        width: 90%;
+    }
+}
+
+
+// CELULAR
+@media (max-width: 768px) {
+    .book-container .grid-card {
+        grid-template-columns: 1fr;
+    }
+
+    .book-container .search-book {
+        width: 90%;
+    }
+
+    .book-container .status-book {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 16px;
+    }
+}

@@ -1,8 +1,22 @@
 <mat-sidenav-container class="app-container">
-    <mat-sidenav mode="side" opened="true" class="mat-sidebar">
+    <mat-sidenav
+    #drawer
+    [mode]="isMobile ? 'over': 'side'" 
+    [opened]="!isMobile" 
+    class="mat-sidebar">
+    @if (isMobile) {
+        <button mat-icon-button (click)="drawer.close()">
+            <mat-icon id="close">close</mat-icon>
+        </button>
+    }
         <app-sidebar />
     </mat-sidenav>
     <mat-sidenav-content>
+        @if (isMobile) {
+            <button mat-icon-button (click)="drawer.toggle()">
+                <mat-icon id="open">menu</mat-icon>
+            </button>
+        }
         <router-outlet />
     </mat-sidenav-content>
 </mat-sidenav-container>

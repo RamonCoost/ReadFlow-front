@@ -40,20 +40,20 @@
     width: 600px;
 }
 
-.container-add-book .card-header{
+.container-add-book .card-header {
     padding: 24px 24px 16px 24px;
 
-    .card-icon{
+    .card-icon {
         color: #8A7A55;
     }
 
-    .card-title{
+    .card-title {
         color: #E6E7E8;
         font-size: 1.15rem;
         font-weight: 600;
     }
 
-    .card-subtitle{
+    .card-subtitle {
         color: #A8ACAF;
         font-size: 0.9rem;
         margin-top: 4px;
@@ -94,13 +94,32 @@
     font-weight: 500;
     letter-spacing: 0.5px;
 
-    &:hover{
+    &:hover {
         background-color: rgba(138, 122, 85, 0.08);
     }
 }
 
-.container-add-book .mat-mdc-text-field-wrapper{
+.container-add-book .mat-mdc-text-field-wrapper {
     background-color: #2A2E31;
     border: 1px solid #3A3F43;
-    border-radius: 8px;   
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .container-add-book .form-card {
+        width: calc(100% - 32px);
+        max-width: 400px;
+    }
+
+    .container-add-book .body-form{
+        grid-template-rows: auto;
+        grid-template-columns: 1fr;
+    }
+
+    .container-add-book .titulo,
+    .container-add-book .autor,
+    .container-add-book .total-paginas,
+    .container-add-book .paginas-lidas {
+        grid-area: auto;
+    }
 }
