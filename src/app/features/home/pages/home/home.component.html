@@ -1,0 +1,68 @@
+<div class="container-grid">
+    <mat-toolbar class="header">
+        <span class="Logo" routerLink="/">ReadFlow</span>
+        <div class="action">
+            <button mat-stroked-button class="bnt" routerLink="/login">Login</button>
+            <button mat-flat-button class="bnt" routerLink="/register">Cadastrar-se</button>
+        </div>
+    </mat-toolbar>
+
+    <section class="hero">
+        <div class="hero-text">
+            <mat-list>
+                <H2 class="title"> Organize sua Leitura </H2>
+                <h3 class="subtitle"> Leia no seu ritmo </h3>
+                <p class="text">Tenha sua biblioteca em um só lugar, acompanhe cada página lida e organize o que você quer ler a
+                    seguir.</p>
+                <div class="actions-bnt">
+                    <button mat-flat-button class="bnt" routerLink="/register">Comece agora</button>
+                    <button mat-stroked-button class="bnt" routerLink="/login">Já tenho conta</button>
+                </div>
+            </mat-list>
+        </div>
+
+        <div class="hero-preview">
+            <mat-card class="custon-card">
+
+                <mat-card-header class="card-header">
+                    <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
+                    <mat-card-title class="card-title">Sua Biblioteca</mat-card-title>
+
+
+                </mat-card-header>
+
+                <mat-card-content class="card-body summary-body">
+                    <mat-list>
+                        <mat-card-title class="card-title">O Héroi Das Eras</mat-card-title>
+                        <mat-card-subtitle class="card-subtitle">Brandon Sanderson</mat-card-subtitle>
+                    </mat-list>
+
+                    <mat-list>
+                        <mat-progress-bar class="custon-progress-bar" [value]="45"></mat-progress-bar>
+                        <span>377 de 711 páginas</span>
+                    </mat-list>
+
+                    <div class="resumo">
+                        <mat-divider></mat-divider>
+                        <mat-card-title >Resumo</mat-card-title>
+                    </div>
+
+
+                    <div class="kpi-main-block">
+                        <span class="kpi-number">20</span>
+                        <span class="kpi-label">totla de livros</span>
+                    </div>
+
+                    <div class="kpi-sub-stats">
+                        <span class="stat-item"><strong>Leitura Atual: 2</strong></span>
+                        <span class="stat-item"><strong>Proximas Leituras: 8</strong></span>
+                        <span class="stat-item"><strong>Concluidos: 9</strong></span>
+                        <span class="stat-item"><strong>Abandonados: 1</strong></span>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </section>
+
+    <footer class="baseboard"> © 2026 ReadFlow </footer>
+</div>
