@@ -26,7 +26,9 @@ body {
 
 body {
   margin: 0;
-  font-family: Lato, sans-serif
+  font-family: Lato, sans-serif;
+  background-color: var(--mat-sys-background);
+  color: var(--mat-sys-on-background);
 }
 
 .full-width {
