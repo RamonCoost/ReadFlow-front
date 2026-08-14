@@ -6,6 +6,7 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from '@angular/material/list';
 import { RouterLink } from "@angular/router";
+import { PublicHeaderComponent } from '../../../layout/public-header/public-header.component';
 
 
 @Component({
@@ -17,7 +18,8 @@ import { RouterLink } from "@angular/router";
     MatProgressBarModule,
     MatIconModule,
     MatListModule,
-    RouterLink
+    RouterLink,
+    PublicHeaderComponent
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

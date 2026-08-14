@@ -1,0 +1,25 @@
+.header {
+    grid-area: 1/1/2/-1;
+    justify-content: space-around;
+    background-color: #111517;
+
+
+    .action {
+        display: flex;
+        gap: 16px;
+
+        .bnt{
+            border-radius: 10px;
+        }
+    }
+
+    .logo {
+        color: #A8ACAF;
+        font-weight: 700;
+        cursor: pointer;
+
+        .read {
+            color: #8A7A55;
+        }
+    }
+}
