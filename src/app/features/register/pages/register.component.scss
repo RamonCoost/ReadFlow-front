@@ -1,0 +1,74 @@
+.register-page {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.form-register {
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: radial-gradient(circle, #3D3626, #2A2E31, rgba(0, 0, 0, 0.70));
+    // background-image: radial-gradient(circle, #2A2E31,#3D3626);
+}
+
+.form-register .form-card {
+    background-color: #2A2E31;
+    border: 1px solid #3A3F43;
+    border-radius: 8px;
+    min-height: 260px;
+    box-shadow: none;
+    padding: 8px;
+    width: 500px;
+}
+
+.form-register .input-username {
+    margin-bottom: 5px;
+}
+
+.form-register .input-email {
+    margin-bottom: 5px;
+}
+
+.form-register .input-password {
+    margin-bottom: 5px;
+}
+
+.form-register .form-header {
+    padding: 24px 24px 16px 24px;
+}
+
+.form-register .form-grid {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.form-register .form-bnt {
+    border-radius: 10px;
+    width: 100%;
+}
+
+.form-register .bnt-password {
+    background-color: transparent;
+    color: #E6E7E8;
+    border: none;
+    margin-left: 3px;
+}
+
+@media (max-width: 480px) {
+    .form-register {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 24px;
+    }
+
+    .form-card {
+        width: 100%;
+        max-width: 500px;
+    }
+}

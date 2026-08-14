@@ -1,0 +1,7 @@
+<mat-toolbar class="header">
+    <span class="logo" routerLink="/"> <span class="read">Read</span>Flow</span>
+    <div class="action">
+        <button mat-stroked-button class="bnt" routerLink="/login">Login</button>
+        <button mat-flat-button class="bnt" [disabled]="isOnRouteRegister()" routerLink="/register">Cadastrar-se</button>
+    </div>
+</mat-toolbar>

@@ -4,17 +4,6 @@
     min-height: 100vh;
 }
 
-.container-grid .header {
-    grid-area: 1/1/2/-1;
-    justify-content: space-around;
-    background-color: #111517;
-}
-
-.container-grid .action {
-    display: flex;
-    gap: 16px;
-}
-
 .container-grid .hero {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
