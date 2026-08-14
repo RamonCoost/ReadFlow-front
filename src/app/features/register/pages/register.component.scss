@@ -25,6 +25,10 @@
     width: 500px;
 }
 
+.form-register .form-header {
+    padding: 24px 24px 16px 24px;
+}
+
 .form-register .input-username {
     margin-bottom: 5px;
 }
@@ -37,13 +41,10 @@
     margin-bottom: 5px;
 }
 
-.form-register .form-header {
-    padding: 24px 24px 16px 24px;
-}
-
 .form-register .form-grid {
     display: grid;
     grid-template-rows: repeat(4, 1fr);
+    padding: 8px;
 }
 
 .form-register .form-bnt {

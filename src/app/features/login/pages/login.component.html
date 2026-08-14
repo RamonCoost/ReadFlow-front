@@ -1,0 +1,37 @@
+<div class="pages-login">
+    <app-public-header />
+    <div class="container-login">
+        <mat-card class="form-card">
+            <mat-card-header class="form-header">
+                <mat-card-title class="title">Entar na conta</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <form [formGroup]="form" class="form-grid">
+                    <mat-form-field class="input-email">
+                        <mat-label>Email</mat-label>
+                        @if (emailErrors) {
+                            <mat-error>{{emailErrors}}</mat-error>
+                        }
+                        <input formControlName="email" matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="input-password">
+                        <mat-label>Senha</mat-label>
+                        @if (senhaErrors) {
+                            <mat-error>{{senhaErrors}}</mat-error>
+                        }
+                        <input formControlName="senha" matInput [type]="hide() ? 'password' : 'text'" />
+                        <button type="button" mat-icon-button matSuffix (click)="clickEvent ($event)"
+                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()" class="bnt-password">
+                            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                    <mat-card-actions class="full-width">
+                        <button mat-flat-button [disabled]="form.invalid" class="form-bnt" (click)="submit()">Login</button>
+                    </mat-card-actions>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
