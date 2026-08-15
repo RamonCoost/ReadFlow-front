@@ -1,10 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from "@angular/material/button";
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from "@angular/material/input";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { UserService } from '../../../core/service/user.service';
 import { PublicHeaderComponent } from "../../../layout/public-header/public-header.component";
 
 @Component({
@@ -24,6 +27,11 @@ import { PublicHeaderComponent } from "../../../layout/public-header/public-head
 export class RegisterComponent {
   form: FormGroup;
   hide = signal(true);
+
+  private snack: MatSnackBar = inject(MatSnackBar);
+
+  private readonly userService = inject(UserService);
+  private readonly router = inject(Router)
 
   constructor(private formBuilder: FormBuilder) {
     this.form = formBuilder.group({
@@ -58,9 +66,21 @@ export class RegisterComponent {
   submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-    } else {
-
+      return;
     }
+    const formData = this.form.getRawValue();
+    this.userService.criarUsuario(formData).subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        this.showOnMenssage('Erro ao cadastar usuário', 'Ok');
+      }
+    })
+  }
+
+  showOnMenssage(menssage: string, action: string) {
+    this.snack.open(menssage, action);
   }
 
   clickEvent(event: MouseEvent) {
