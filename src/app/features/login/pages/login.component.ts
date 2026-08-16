@@ -1,10 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../core/service/auth.service';
 import { PublicHeaderComponent } from '../../../layout/public-header/public-header.component';
 
 
@@ -18,7 +21,7 @@ import { PublicHeaderComponent } from '../../../layout/public-header/public-head
     ReactiveFormsModule,
     MatInputModule,
     MatButton
-],
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -26,14 +29,19 @@ export class LoginComponent {
   form: FormGroup;
   hide = signal(true);
 
-  constructor(private formBuilder: FormBuilder){
+  private readonly authService = inject(AuthService);
+  private readonly snack: MatSnackBar = inject(MatSnackBar);
+  private readonly router: Router = inject(Router);
+
+
+  constructor(private formBuilder: FormBuilder) {
     this.form = formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
-   get emailErrors(): string | null {
+  get emailErrors(): string | null {
     const emailErroscontrol = this.form.get('email')
     if (emailErroscontrol?.hasError('required')) return 'O campo "Email" é obrigatório';
     if (emailErroscontrol?.hasError('email')) return 'O campo "email" deve conter um email válido';
@@ -47,9 +55,27 @@ export class LoginComponent {
     return null;
   }
 
-  submit(){
+  submit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const formData = this.form.getRawValue();
+    this.authService.login(formData).subscribe({
+      next: (response) => {
+        this.authService.salvarToken(response.token)
+        console.log(this.authService.obterToken());
+      },
+      error: () => {
+        this.showOnMessage('Erro ao fazer o login', 'Ok')
+      }
+    })
   }
 
+  showOnMessage(message: string, action: string) {
+    this.snack.open(message, action);
+  }
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());

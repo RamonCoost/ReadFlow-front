@@ -74,12 +74,12 @@ export class RegisterComponent {
         this.router.navigate(['/login']);
       },
       error: () => {
-        this.showOnMenssage('Erro ao cadastar usuário', 'Ok');
+        this.showOnMessage('Erro ao cadastar usuário', 'Ok');
       }
     })
   }
 
-  showOnMenssage(menssage: string, action: string) {
+  showOnMessage(menssage: string, action: string) {
     this.snack.open(menssage, action);
   }
 
