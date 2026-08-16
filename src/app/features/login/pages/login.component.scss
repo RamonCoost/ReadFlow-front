@@ -1,5 +1,4 @@
 .pages-login {
-
     min-height: 100vh;
 
     display: flex;
@@ -52,4 +51,22 @@
     background: transparent;
     border: none;
     color: #E6E7E8;
+
+}
+
+@media (max-width: 480px) {
+    .pages-login .container-login {
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+
+        .form-card{
+            width: 100%;
+            max-width: 500px;
+            
+        }
+    }
 }

@@ -65,7 +65,7 @@ export class LoginComponent {
     this.authService.login(formData).subscribe({
       next: (response) => {
         this.authService.salvarToken(response.token)
-        console.log(this.authService.obterToken());
+        this.router.navigate(['/dashboard'])
       },
       error: () => {
         this.showOnMessage('Erro ao fazer o login', 'Ok')
