@@ -32,4 +32,8 @@ export class PublicHeaderComponent implements OnInit, OnDestroy {
   isOnRouteRegister(): boolean {
     return this.rotaAtual === '/register'
   }
+
+  isOnRouteLogin(): boolean{
+    return this.rotaAtual === '/login'
+  }
 }
