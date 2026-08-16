@@ -6,6 +6,7 @@ import { HomeComponent } from './features/home/pages/home.component';
 import { RegisterComponent } from './features/register/pages/register.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { LoginComponent } from './features/login/pages/login.component';
+import { authGuard } from './core/guards/auth.guard';
 
 
 
@@ -22,6 +23,7 @@ export const routes: Routes = [
     {
         path: '',
         component: MainLayoutComponent,
+        canActivate: [authGuard],
         children: [
             {
                 path: 'dashboard',

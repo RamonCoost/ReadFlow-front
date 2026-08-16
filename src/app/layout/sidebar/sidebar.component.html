@@ -1,39 +1,47 @@
-<mat-sidenav-container class="container-sidebar" >
-  <mat-list class="sidebar">
-    
-    <mat-toolbar>
-      <mat-toolbar-row>
-        <span>
-          <img [src]="logo" alt="logo" class="logo-img">
-        </span>
-      </mat-toolbar-row>
-      <mat-toolbar-row>
-        <span class="slogan">Acompanhe sua jornada na leitura...</span>
-      </mat-toolbar-row>
-    </mat-toolbar>
+<div class="container-sidebar">
+  <div class="top-content">
+    <mat-list class="sidebar">
+      <mat-toolbar>
+        <mat-toolbar-row>
+          <span>
+            <img [src]="logo" alt="logo" class="logo-img">
+          </span>
+        </mat-toolbar-row>
+        <mat-toolbar-row>
+          <span class="slogan">Acompanhe sua jornada na leitura...</span>
+        </mat-toolbar-row>
+      </mat-toolbar>
 
-    <mat-divider class="divider"></mat-divider>
+      <mat-divider class="divider"></mat-divider>
 
-    <mat-list-item class="mat-list-button" >
-      <button mat-button routerLink="/dashboard" routerLinkActive="ativo">
-        Dashboard
-        <mat-icon>dashboard</mat-icon>
-      </button>
-    </mat-list-item>
+      <mat-list-item class="mat-list-button">
+        <button mat-button routerLink="/dashboard" routerLinkActive="ativo">
+          Dashboard
+          <mat-icon>dashboard</mat-icon>
+        </button>
+      </mat-list-item>
 
-    <mat-list-item class="mat-list-button">
-      <button mat-button routerLink="/books" routerLinkActive="ativo">
-        Biblioteca
-        <mat-icon>collections_bookmark</mat-icon>
-      </button>
-    </mat-list-item>
+      <mat-list-item class="mat-list-button">
+        <button mat-button routerLink="/books" routerLinkActive="ativo">
+          Biblioteca
+          <mat-icon>collections_bookmark</mat-icon>
+        </button>
+      </mat-list-item>
 
-    <mat-list-item >
-      <button mat-button routerLink="/create-book" routerLinkActive="ativo">
-        Novo Livro
-        <mat-icon>add_2</mat-icon>
-      </button>
-    </mat-list-item>
+      <mat-list-item>
+        <button mat-button routerLink="/create-book" routerLinkActive="ativo">
+          Novo Livro
+          <mat-icon>add_2</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </div>
 
-  </mat-list>
-</mat-sidenav-container>
+  <div class="logout">
+    <button mat-button class="bnt" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Sair
+    </button>
+  </div>
+
+</div>

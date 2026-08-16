@@ -5,7 +5,7 @@
     [opened]="!isMobile" 
     class="mat-sidebar">
     @if (isMobile) {
-        <button mat-icon-button (click)="drawer.close()">
+        <button mat-icon-button (click)="drawer.close()" class="close-button">
             <mat-icon id="close">close</mat-icon>
         </button>
     }

@@ -1,7 +1,14 @@
+:host{
+  display: block;
+  height: 100%;
+}
+
 .container-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
-
 }
 
 .sidebar .divider {
@@ -33,3 +40,15 @@
   color: #E6E7E8;
   border-radius: 8px;
 }
+
+.container-sidebar .logout{
+  padding: 8px;
+  .bnt{
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 48px;
+  }
+}
+

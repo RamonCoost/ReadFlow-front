@@ -3,6 +3,7 @@
   min-height: 100vh;
   background-color: #181A1B;
   color: #E6E7E8;
+  position: relative;
   
 }
 
@@ -11,10 +12,16 @@
   border-color: #3A3F43;
 }
 
+.app-container .close-button{
+  position: absolute;
+}
+
+
 .app-container #open{
   color: #8A7A55;
 }
 
 .app-container #close{
   color: #B85C5C;
+  border: none;
 }
