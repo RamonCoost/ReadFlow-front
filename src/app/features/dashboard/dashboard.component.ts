@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbar, MatToolbarRow } from "@angular/material/toolbar";
-import { MatIcon } from '@angular/material/icon';
 import { MatButton } from "@angular/material/button";
-import { BookService } from '../../core/service/book.service';
-import { BookResponse } from '../../shared/models/book-response';
-import { StatusLeitura } from '../../shared/enums/status-leitura';
-import { NextReading } from '../../shared/models/next-reading';
-import { ContinueReading } from '../../shared/models/continue.reading';
-import { RouterLink } from "@angular/router";
+import { MatCardModule } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbar, MatToolbarRow } from "@angular/material/toolbar";
+import { RouterLink } from "@angular/router";
+import { BookService } from '../../core/service/book.service';
+import { StatusLeitura } from '../../shared/enums/status-leitura';
+import { BookResponse } from '../../shared/models/book-response';
+import { ContinueReading } from '../../shared/models/continue.reading';
+import { NextReading } from '../../shared/models/next-reading';
+import { FeedbackService } from '../../core/service/feedback.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +26,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     RouterLink,
     MatListModule,
     MatProgressBarModule
-],
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -41,7 +42,7 @@ export class DashboardComponent implements OnInit {
   totalConcluidos: number = 0;
   totalAbandonados: number = 0;
 
-  constructor(private bookService: BookService) {
+  constructor(private bookService: BookService, private feedBack: FeedbackService) {
   }
 
   ngOnInit(): void {
@@ -49,11 +50,20 @@ export class DashboardComponent implements OnInit {
   }
 
   carregarLivros() {
-    this.bookService.listarLivros().subscribe((books) => {
-      this.listBooks = books;
-      this.calcularResumo();
-      this.carregarProximasLeituras();
-      this.carregarContinuarLeitura();
+    this.bookService.listarLivros().subscribe({
+      next: (books) => {
+        this.listBooks = books;
+        this.calcularResumo();
+        this.carregarProximasLeituras();
+        this.carregarContinuarLeitura();
+      },
+      error: (error) => {
+        if (error.error?.mensagem) {
+          this.feedBack.showOnMessage(error.error?.mensagem, 'OK');
+        } else {
+          this.feedBack.showOnMessage('Erro ao carregar as informações', 'OK');
+        }
+      }
     })
   }
 
@@ -77,26 +87,26 @@ export class DashboardComponent implements OnInit {
   }
 
   carregarContinuarLeitura() {
-    const livroEncontrado = this.listBooks.find (livro => livro.statusLeitura === StatusLeitura.LENDO)
-    if(livroEncontrado?.statusLeitura === StatusLeitura.LENDO){
+    const livroEncontrado = this.listBooks.find(livro => livro.statusLeitura === StatusLeitura.LENDO)
+    if (livroEncontrado?.statusLeitura === StatusLeitura.LENDO) {
       this.continuarLeitura = livroEncontrado
     }
-    else{
+    else {
       this.continuarLeitura = null;
     }
   }
 
- 
-get progressoLeituraAtual(): number {
-  
-  if (!this.continuarLeitura || !this.continuarLeitura.totalPaginas) {
-    return 0;
+
+  get progressoLeituraAtual(): number {
+
+    if (!this.continuarLeitura || !this.continuarLeitura.totalPaginas) {
+      return 0;
+    }
+
+    const percentual = (this.continuarLeitura.paginasLidas * 100) / this.continuarLeitura.totalPaginas;
+
+
+    return Math.min(100, Math.round(percentual));
   }
-
-  const percentual = (this.continuarLeitura.paginasLidas * 100) / this.continuarLeitura.totalPaginas;
-  
-
-  return Math.min(100, Math.round(percentual));
-}
 
 }

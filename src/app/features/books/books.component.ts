@@ -1,23 +1,23 @@
-import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { BookResponse } from '../../shared/models/book-response';
-import { BookService } from '../../core/service/book.service';
-import { mapStatus } from '../../shared/enums/status-leitura-labels'
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { StatusLeitura } from '../../shared/enums/status-leitura';
-import { MatMenuModule } from '@angular/material/menu';
-import { EditBookDialogComponent } from '../edit-book-dialog/edit-book-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Title } from '@angular/platform-browser';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { BookService } from '../../core/service/book.service';
+import { FeedbackService } from '../../core/service/feedback.service';
+import { StatusLeitura } from '../../shared/enums/status-leitura';
+import { mapStatus } from '../../shared/enums/status-leitura-labels';
+import { BookResponse } from '../../shared/models/book-response';
 import { DeleteBookDialogComponent } from '../delete-book-dialog/delete-book-dialog.component';
+import { EditBookDialogComponent } from '../edit-book-dialog/edit-book-dialog.component';
 
 
 
@@ -51,13 +51,12 @@ export class BooksComponent implements OnInit {
   searchControl = new FormControl('');
   readonly StatusLeitura = StatusLeitura;
 
-  constructor(private bookService: BookService, private matDialog: MatDialog) {
+  constructor(private bookService: BookService, private matDialog: MatDialog, private feedBack: FeedbackService) {
   }
 
 
   ngOnInit(): void {
     this.carregarLivros();
-
     this.searchControl.valueChanges.subscribe(() => {
       this.aplicarFiltros();
     })
@@ -66,10 +65,20 @@ export class BooksComponent implements OnInit {
 
 
   carregarLivros() {
-    this.bookService.listarLivros().subscribe((book => {
-      this.listBooks = book;
-      this.aplicarFiltros();
-    }));
+    this.bookService.listarLivros().subscribe({
+      next: (book) => {
+        this.listBooks = book;
+        this.aplicarFiltros();
+      },
+      error: (error) => {
+        if(error.error?.mernsagem){
+          this.feedBack.showOnMessage(error.error.mensagem,'OK')
+        }else{
+          this.feedBack.showOnMessage('Erro ao carregar livros', 'OK')
+        }
+      }
+
+    });
   }
 
   filtrarPorStatus(status: StatusLeitura | 'TODOS') {

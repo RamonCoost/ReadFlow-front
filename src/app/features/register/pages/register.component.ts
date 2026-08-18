@@ -5,8 +5,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from "@angular/material/input";
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { FeedbackService } from '../../../core/service/feedback.service';
 import { UserService } from '../../../core/service/user.service';
 import { PublicHeaderComponent } from "../../../layout/public-header/public-header.component";
 
@@ -28,9 +28,8 @@ export class RegisterComponent {
   form: FormGroup;
   hide = signal(true);
 
-  private snack: MatSnackBar = inject(MatSnackBar);
-
   private readonly userService = inject(UserService);
+  private readonly feedBack = inject(FeedbackService);
   private readonly router = inject(Router)
 
   constructor(private formBuilder: FormBuilder) {
@@ -73,14 +72,14 @@ export class RegisterComponent {
       next: () => {
         this.router.navigate(['/login']);
       },
-      error: () => {
-        this.showOnMessage('Erro ao cadastar usuário', 'Ok');
+      error: (error) => {
+        if (error.status === 409) {
+          this.feedBack.showOnMessage(error.error.mensagem, 'OK');
+        } else {
+          this.feedBack.showOnMessage('Erro ao cadastar usuário', 'OK');
+        }
       }
     })
-  }
-
-  showOnMessage(menssage: string, action: string) {
-    this.snack.open(menssage, action);
   }
 
   clickEvent(event: MouseEvent) {
