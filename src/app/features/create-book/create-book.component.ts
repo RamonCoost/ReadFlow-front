@@ -1,14 +1,15 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
 import { MatButton } from "@angular/material/button";
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
-import { validarLimitePaginasLidas, VerificadorErroPaginasLidas } from '../../shared/validators/bookValidator';
-import { BookService } from '../../core/service/book.service';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
+import { BookService } from '../../core/service/book.service';
+import { FeedbackService } from '../../core/service/feedback.service';
+import { validarLimitePaginasLidas, VerificadorErroPaginasLidas } from '../../shared/validators/bookValidator';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class CreateBookComponent {
 
   public readonly erroPaginasLidas = new VerificadorErroPaginasLidas();
 
-  constructor(private formBuilder: FormBuilder, private bookService: BookService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private bookService: BookService, private router: Router, private feedBack: FeedbackService) {
     this.form = this.formBuilder.group({
       titulo: ['', [Validators.required, Validators.minLength(3)]],
       autor: ['', [Validators.required, Validators.minLength(3)]],
@@ -69,9 +70,14 @@ export class CreateBookComponent {
     this.bookService.criarLivro(formData).subscribe({
       next: (response) => {
         this.router.navigate(['/books'])
+        this.feedBack.showOnMessage('livro adicionado com sucesso.', 'OK')
       },
-      error: (erro) => {
-        console.error(`Erro ao adicionar o livro`, erro)
+      error: (error) => {
+        if (error.error?.mensagem) {
+          this.feedBack.showOnMessage(error.error.mensagem, 'OK');
+        } else {
+          this.feedBack.showOnMessage('Erro ao adiconar o livro', 'OK');
+        }
       }
     })
   }

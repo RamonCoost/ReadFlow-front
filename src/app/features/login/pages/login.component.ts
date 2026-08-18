@@ -5,9 +5,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/service/auth.service';
+import { FeedbackService } from '../../../core/service/feedback.service';
 import { PublicHeaderComponent } from '../../../layout/public-header/public-header.component';
 
 
@@ -30,7 +30,7 @@ export class LoginComponent {
   hide = signal(true);
 
   private readonly authService = inject(AuthService);
-  private readonly snack: MatSnackBar = inject(MatSnackBar);
+  private readonly feedBack = inject(FeedbackService);
   private readonly router: Router = inject(Router);
 
 
@@ -67,14 +67,15 @@ export class LoginComponent {
         this.authService.salvarToken(response.token)
         this.router.navigate(['/dashboard'])
       },
-      error: () => {
-        this.showOnMessage('Erro ao fazer o login', 'Ok')
+      error: (error) => {
+        if (error.status === 401) {
+          this.feedBack.showOnMessage(error.error.mensagem, 'Ok');
+        } else {
+          this.feedBack.showOnMessage('Erro ao fazer o login', 'Ok');
+        }
+
       }
     })
-  }
-
-  showOnMessage(message: string, action: string) {
-    this.snack.open(message, action);
   }
 
   clickEvent(event: MouseEvent) {

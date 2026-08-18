@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BookService } from '../../core/service/book.service';
+import { FeedbackService } from '../../core/service/feedback.service';
 
 @Component({
   selector: 'app-edit-book-dialog',
@@ -35,7 +36,7 @@ export class EditBookDialogComponent {
 
   form: FormGroup
 
-  constructor(@Inject(MAT_DIALOG_DATA) public book: BookResponse, private formBiuld: FormBuilder, private bookService: BookService, private dialogRef: MatDialogRef<EditBookDialogComponent> ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public book: BookResponse, private formBiuld: FormBuilder, private bookService: BookService, private feedBack: FeedbackService, private dialogRef: MatDialogRef<EditBookDialogComponent>) {
     this.form = formBiuld.group({
       titulo: [book.titulo, [Validators.required, Validators.minLength(3)]],
       autor: [book.autor, [Validators.required, Validators.minLength(3)]],
@@ -50,13 +51,17 @@ export class EditBookDialogComponent {
   salvarLivroAtualizado() {
     const formData = this.form.value;
     this.bookService.atualizarLivro(this.book.id, formData).subscribe({
-        next: (response) => {
-        this.dialogRef.close(response)
+      next: (response) => {
+        this.dialogRef.close(response);
+        this.feedBack.showOnMessage('Livro editado com sucesso','OK');
       },
-      error: (erro) => {
-        console.error(`Erro ao editar o livro`, erro)
+      error: (error) => {
+        if (error.error?.mensagem) {
+          this.feedBack.showOnMessage(error.error.mensagem, 'OK')
+        } else {
+          this.feedBack.showOnMessage('Erro ao editar', 'OK');
+        }
       }
     })
   }
-
 }
