@@ -1,3 +1,9 @@
+.container-add-book{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .container-add-book .form-toolbar {
     background: transparent;
     padding: 24px 24px 0 24px;
@@ -23,10 +29,11 @@
 }
 
 .container-add-book .box-form {
+    flex: 1;
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 32px;
 }
 
 
