@@ -1,3 +1,3 @@
 export const environment = {
-    api: ''
+    api: 'https://readflow-backend-ompi.onrender.com'
 };
