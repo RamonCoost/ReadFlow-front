@@ -97,19 +97,22 @@
     border-radius: 8px;
     width: 100%;
     border-color: #8A7A55;
-    color: #8A7A55;
     font-weight: 500;
     letter-spacing: 0.5px;
-
-    &:hover {
-        background-color: rgba(138, 122, 85, 0.08);
-    }
 }
 
 .container-add-book .mat-mdc-text-field-wrapper {
     background-color: #2A2E31;
     border: 1px solid #3A3F43;
     border-radius: 8px;
+}
+
+.container-add-book .bnt-loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
 }
 
 @media (max-width: 768px) {

@@ -36,3 +36,11 @@
     color: #B85C5C;
     border-radius: 10px;
 }
+
+.card-container .bnt-loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}

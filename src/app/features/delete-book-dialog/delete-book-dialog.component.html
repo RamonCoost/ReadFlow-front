@@ -15,8 +15,18 @@
             <h3>Essa ação não poderá ser desfeita!</h3>
         </mat-card-content>
         <mat-dialog-actions>
-            <button mat-button mat-dialog-close class="cancelar">Cancelar</button>
-            <button mat-button cdkFocusInitial (click)="deletarLivro()" class="bnt">Excluir</button>
+            <button mat-button mat-dialog-close [disabled]="loading()" class="cancelar">Cancelar</button>
+            <button mat-button cdkFocusInitial [disabled]="loading()" (click)="deletarLivro()" class="bnt">
+                @if(loading()){
+                    <div class="bnt-loading">
+                        <span>Excluindo...</span>
+                        <mat-spinner [diameter]="20"></mat-spinner>
+                    </div>
+                }@else{
+                    Excluir
+                }
+                
+            </button>
         </mat-dialog-actions>
     </mat-card>
 

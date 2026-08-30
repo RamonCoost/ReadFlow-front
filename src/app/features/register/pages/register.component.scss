@@ -59,6 +59,15 @@
     margin-left: 3px;
 }
 
+.form-register .bnt-loader{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 @media (max-width: 480px) {
     .form-register {
         flex: 1;

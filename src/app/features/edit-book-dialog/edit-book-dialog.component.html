@@ -14,19 +14,29 @@
 
             <mat-form-field class="total-paginas">
                 <mat-label>Total de Páginas</mat-label>
-                <input  matInput formControlName="totalPaginas">
+                <input matInput formControlName="totalPaginas">
             </mat-form-field>
 
             <mat-form-field class="paginas-lidas">
                 <mat-label>Páginas Lidas</mat-label>
                 <input matInput formControlName="paginasLidas">
-            </mat-form-field> 
+            </mat-form-field>
             <mat-checkbox formControlName="abandonado">Abandonado</mat-checkbox>
         </form>
     </mat-dialog-content>
-   
+
     <mat-dialog-actions>
-        <button mat-button mat-dialog-close class="bnt">Cancelar</button>
-        <button mat-button cdkFocusInitial [disabled]="form.invalid" class="bnt" (click)="salvarLivroAtualizado()">Salvar</button>
+        <button mat-button mat-dialog-close [disabled]="loading()" class="bnt">Cancelar</button>
+        <button mat-button cdkFocusInitial [disabled]="form.invalid || loading()" class="bnt"
+            (click)="salvarLivroAtualizado()">
+            @if(loading()){
+            <div class="bnt-loading">
+                <span>Editando...</span>
+                <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+            }@else{
+            Salvar
+            }
+        </button>
     </mat-dialog-actions>
 </div>

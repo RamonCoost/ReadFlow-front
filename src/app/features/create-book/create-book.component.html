@@ -53,9 +53,10 @@
                         }
                     </mat-form-field>
 
-                    <mat-form-field class="paginas-lidas" >
+                    <mat-form-field class="paginas-lidas">
                         <mat-label>Páginas Lidas</mat-label>
-                        <input matInput formControlName="paginasLidas" placeholder="EX: 0" [errorStateMatcher]="erroPaginasLidas">
+                        <input matInput formControlName="paginasLidas" placeholder="EX: 0"
+                            [errorStateMatcher]="erroPaginasLidas">
                         @if (paginasLidas?.hasError('required') && paginasLidas?.touched) {
                         <mat-error> O campo "Páginas Lidas" é obrigatório </mat-error>
                         }
@@ -74,7 +75,18 @@
             </mat-card-content>
 
             <mat-card-actions>
-                <button mat-stroked-button class="form-bnt" [disabled]="form.invalid" (click)="submit()">Adicionar Livro</button>
+                <button mat-flat-button class="form-bnt" [disabled]="form.invalid || loading()"
+                    (click)="submit()">
+
+                    @if(loading()){
+                    <div class="bnt-loading">
+                        <span>Adicionando...</span>
+                        <mat-spinner [diameter]="20"></mat-spinner>
+                    </div>
+                    }@else{
+                        Adicionar Livro
+                    }
+                </button>
             </mat-card-actions>
 
         </mat-card>

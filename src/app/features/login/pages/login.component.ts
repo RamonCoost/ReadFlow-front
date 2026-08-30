@@ -8,7 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/service/auth.service';
 import { FeedbackService } from '../../../core/service/feedback.service';
+import { HealthService } from '../../../core/service/health.service';
 import { PublicHeaderComponent } from '../../../layout/public-header/public-header.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @Component({
@@ -20,19 +22,21 @@ import { PublicHeaderComponent } from '../../../layout/public-header/public-head
     MatIconModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatButton
+    MatButton,
+    MatProgressSpinnerModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent{
+
   form: FormGroup;
   hide = signal(true);
 
   private readonly authService = inject(AuthService);
   private readonly feedBack = inject(FeedbackService);
   private readonly router: Router = inject(Router);
-
+  protected readonly healthService: HealthService = inject(HealthService);
 
   constructor(private formBuilder: FormBuilder) {
     this.form = formBuilder.group({
@@ -40,6 +44,7 @@ export class LoginComponent {
       senha: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
+
 
   get emailErrors(): string | null {
     const emailErroscontrol = this.form.get('email')

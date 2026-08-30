@@ -1,17 +1,18 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, signal, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { BookResponse } from '../../shared/models/book-response';
-import { validarLimitePaginasLidas } from '../../shared/validators/bookValidator';
-import { StatusLeitura } from '../../shared/enums/status-leitura';
-import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BookService } from '../../core/service/book.service';
 import { FeedbackService } from '../../core/service/feedback.service';
+import { StatusLeitura } from '../../shared/enums/status-leitura';
+import { BookResponse } from '../../shared/models/book-response';
+import { validarLimitePaginasLidas } from '../../shared/validators/bookValidator';
 
 @Component({
   selector: 'app-edit-book-dialog',
@@ -26,7 +27,8 @@ import { FeedbackService } from '../../core/service/feedback.service';
     MatDialogTitle,
     MatDialogActions,
     MatCheckboxModule,
-    MatDialogClose
+    MatDialogClose,
+    MatProgressSpinnerModule
   ],
   templateUrl: './edit-book-dialog.component.html',
   styleUrl: './edit-book-dialog.component.scss',
@@ -35,6 +37,7 @@ import { FeedbackService } from '../../core/service/feedback.service';
 export class EditBookDialogComponent {
 
   form: FormGroup
+  loading = signal<boolean>(false)
 
   constructor(@Inject(MAT_DIALOG_DATA) public book: BookResponse, private formBiuld: FormBuilder, private bookService: BookService, private feedBack: FeedbackService, private dialogRef: MatDialogRef<EditBookDialogComponent>) {
     this.form = formBiuld.group({
@@ -49,19 +52,26 @@ export class EditBookDialogComponent {
   }
 
   salvarLivroAtualizado() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.loading.set(true);
     const formData = this.form.value;
-    this.bookService.atualizarLivro(this.book.id, formData).subscribe({
-      next: (response) => {
-        this.dialogRef.close(response);
-        this.feedBack.showOnMessage('Livro editado com sucesso','OK');
-      },
-      error: (error) => {
-        if (error.error?.mensagem) {
-          this.feedBack.showOnMessage(error.error.mensagem, 'OK')
-        } else {
-          this.feedBack.showOnMessage('Erro ao editar', 'OK');
+      this.bookService.atualizarLivro(this.book.id, formData).subscribe({
+        next: (response) => {
+          this.loading.set(false)
+          this.dialogRef.close(response);
+          this.feedBack.showOnMessage('Livro editado com sucesso', 'OK');
+        },
+        error: (error) => {
+          this.loading.set(false)
+          if (error.error?.mensagem) {
+            this.feedBack.showOnMessage(error.error.mensagem, 'OK')
+          } else {
+            this.feedBack.showOnMessage('Erro ao editar', 'OK');
+          }
         }
-      }
-    })
+      })
   }
 }
