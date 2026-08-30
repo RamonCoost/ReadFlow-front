@@ -1,10 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { environment } from '../environments/environment';
-
-
-
-
+import { HealthService } from './core/service/health.service';
 
 
 @Component({
@@ -13,7 +9,13 @@ import { environment } from '../environments/environment';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  protected readonly healthService: HealthService = inject(HealthService);
+
   title = 'readflow';
 
+  ngOnInit(): void {
+    this.healthService.verificarBackend();
+  }
 }

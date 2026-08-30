@@ -7,8 +7,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from "@angular/material/input";
 import { Router } from '@angular/router';
 import { FeedbackService } from '../../../core/service/feedback.service';
+import { HealthService } from '../../../core/service/health.service';
 import { UserService } from '../../../core/service/user.service';
 import { PublicHeaderComponent } from "../../../layout/public-header/public-header.component";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +21,8 @@ import { PublicHeaderComponent } from "../../../layout/public-header/public-head
     MatInput,
     MatButton,
     MatIcon,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -30,7 +33,8 @@ export class RegisterComponent {
 
   private readonly userService = inject(UserService);
   private readonly feedBack = inject(FeedbackService);
-  private readonly router = inject(Router)
+  private readonly router = inject(Router);
+  protected readonly healthService = inject(HealthService);
 
   constructor(private formBuilder: FormBuilder) {
     this.form = formBuilder.group({
