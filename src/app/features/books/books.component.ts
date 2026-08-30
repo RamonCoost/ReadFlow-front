@@ -46,7 +46,7 @@ export class BooksComponent implements OnInit {
 
   listBooks: BookResponse[] = [];
   filteredBooks: BookResponse[] = [];
-  filtroAtivo: StatusLeitura | 'TODOS' = 'TODOS';
+  filtroAtivo: StatusLeitura | 'TODOS' = StatusLeitura.LENDO;
   mapStatus = mapStatus;
   searchControl = new FormControl('');
   readonly StatusLeitura = StatusLeitura;
