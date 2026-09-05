@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, signal, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -11,11 +11,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { BookService } from '../../core/service/book.service';
 import { FeedbackService } from '../../core/service/feedback.service';
 import { StatusLeitura } from '../../shared/enums/status-leitura';
 import { mapStatus } from '../../shared/enums/status-leitura-labels';
 import { BookResponse } from '../../shared/models/book-response';
+import { PageResponse } from '../../shared/models/page-response';
 import { DeleteBookDialogComponent } from '../delete-book-dialog/delete-book-dialog.component';
 import { EditBookDialogComponent } from '../edit-book-dialog/edit-book-dialog.component';
 
@@ -44,12 +46,14 @@ import { EditBookDialogComponent } from '../edit-book-dialog/edit-book-dialog.co
 })
 export class BooksComponent implements OnInit {
 
+  pagination = signal<PageResponse<BookResponse> | null>(null);
   listBooks: BookResponse[] = [];
-  filteredBooks: BookResponse[] = [];
-  filtroAtivo: StatusLeitura | 'TODOS' = StatusLeitura.LENDO;
+  filtroAtivo: StatusLeitura | null = StatusLeitura.LENDO;
   mapStatus = mapStatus;
   searchControl = new FormControl('');
   readonly StatusLeitura = StatusLeitura;
+  protected readonly currentPage = signal(0);
+  protected readonly pageSize = signal(5);
 
   constructor(private bookService: BookService, private matDialog: MatDialog, private feedBack: FeedbackService) {
   }
@@ -57,23 +61,25 @@ export class BooksComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarLivros();
-    this.searchControl.valueChanges.subscribe(() => {
-      this.aplicarFiltros();
-    })
-
+    this.searchControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => {
+        this.currentPage.set(0);
+        this.carregarLivros();
+      })
   }
 
 
   carregarLivros() {
-    this.bookService.listarLivros().subscribe({
+    this.bookService.listarLivros(this.currentPage(), this.pageSize(), this.filtroAtivo, this.searchControl.value).subscribe({
       next: (book) => {
-        this.listBooks = book;
-        this.aplicarFiltros();
+        this.listBooks = book.content;
+        this.pagination.set(book)
       },
       error: (error) => {
-        if(error.error?.mernsagem){
-          this.feedBack.showOnMessage(error.error.mensagem,'OK')
-        }else{
+        if (error.error?.mensagem) {
+          this.feedBack.showOnMessage(error.error.mensagem, 'OK')
+        } else {
           this.feedBack.showOnMessage('Erro ao carregar livros', 'OK')
         }
       }
@@ -81,14 +87,30 @@ export class BooksComponent implements OnInit {
     });
   }
 
-  filtrarPorStatus(status: StatusLeitura | 'TODOS') {
+  proximaPagina() {
+    if (this.pagination() && !this.pagination()?.last) {
+      this.currentPage.update(atual => atual + 1);
+      this.carregarLivros();
+    }
+  }
+
+  paginaAnterior() {
+    if (this.pagination() && !this.pagination()?.first) {
+      this.currentPage.update(atual => atual - 1);
+      this.carregarLivros();
+    }
+  }
+
+  filtrarPorStatus(status: StatusLeitura | null) {
     this.filtroAtivo = status;
-    this.aplicarFiltros();
+    this.currentPage.set(0);
+    this.carregarLivros()
   }
 
   mostrarTodosLivros() {
-    this.filtroAtivo = 'TODOS';
-    this.aplicarFiltros();
+    this.filtroAtivo = null;
+    this.currentPage.set(0)
+    this.carregarLivros()
   }
 
   progressoLeituraAtual(book: BookResponse): number {
@@ -101,24 +123,6 @@ export class BooksComponent implements OnInit {
     return Math.min(100, Math.round(percentual))
   }
 
-  aplicarFiltros() {
-    let resultado = this.listBooks;
-
-    if (this.filtroAtivo !== 'TODOS') {
-      resultado = resultado.filter(book => book.statusLeitura === this.filtroAtivo)
-    }
-
-    let pesquisaTexto = this.searchControl.value?.trim().toLowerCase() ?? '';
-
-    if (pesquisaTexto) {
-      resultado = resultado.filter(book =>
-        book.titulo.trim().toLowerCase().includes(pesquisaTexto)
-        || book.autor.trim().toLowerCase().includes(pesquisaTexto)
-        || book.id.toString().includes(pesquisaTexto)
-      );
-    }
-    this.filteredBooks = resultado;
-  }
 
   editarLivro(book: BookResponse) {
     const dialogRef = this.matDialog.open(EditBookDialogComponent, {

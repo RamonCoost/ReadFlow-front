@@ -8,11 +8,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbar, MatToolbarRow } from "@angular/material/toolbar";
 import { RouterLink } from "@angular/router";
 import { BookService } from '../../core/service/book.service';
+import { FeedbackService } from '../../core/service/feedback.service';
 import { StatusLeitura } from '../../shared/enums/status-leitura';
 import { BookResponse } from '../../shared/models/book-response';
 import { ContinueReading } from '../../shared/models/continue.reading';
 import { NextReading } from '../../shared/models/next-reading';
-import { FeedbackService } from '../../core/service/feedback.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,13 +46,13 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.carregarLivros()
+    this.carregarLivros();
   }
 
   carregarLivros() {
-    this.bookService.listarLivros().subscribe({
+    this.bookService.listarLivros(0, 100, null, null).subscribe({
       next: (books) => {
-        this.listBooks = books;
+        this.listBooks = books.content;
         this.calcularResumo();
         this.carregarProximasLeituras();
         this.carregarContinuarLeitura();
@@ -96,17 +96,13 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-
   get progressoLeituraAtual(): number {
 
     if (!this.continuarLeitura || !this.continuarLeitura.totalPaginas) {
       return 0;
     }
-
     const percentual = (this.continuarLeitura.paginasLidas * 100) / this.continuarLeitura.totalPaginas;
-
 
     return Math.min(100, Math.round(percentual));
   }
-
 }
