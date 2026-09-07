@@ -56,47 +56,47 @@
             <div class="card-actions">
                 <button mat-button class="edit" (click)="editarLivro(book)">
                     <mat-icon>edit</mat-icon>
-                    Editar
+                    <span class="text-action">Editar</span>
                 </button>
                 <button mat-button class="delete" (click)="deletarLivro(book)">
                     <mat-icon>delete</mat-icon>
-                    Excluir
+                   <span class="text-action">Excluir</span>
                 </button>
             </div>
 
         </mat-card>
         }
-
     </div>
-    <button [disabled]="pagination()?.first" (click)="paginaAnterior()">
-        << </button>
-            Página {{currentPage() + 1}} de {{pagination()?.totalPages}}
-            <button [disabled]="pagination()?.last" (click)="proximaPagina()"> >> </button>
-            }@else{
-            <div class="grid-card">
-                <mat-card class="custon-card">
-                    <mat-card-header>
-                        <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
-                        <mat-card-title class="card-title">Titulo Livro</mat-card-title>
-                        <mat-card-subtitle class="card-subtitle">autor</mat-card-subtitle>
-                    </mat-card-header>
+    <div class="pagination">
+        <mat-paginator  hidePageSize="disable" [length]="pagination()?.totalElements" [pageSize]="pageSize()" [pageIndex]="currentPage()"
+            (page)="AlterarPagina($event)" class="book-paginator"></mat-paginator>
+    </div>
 
-                    <mat-card-content class="card-body">
-                        <mat-list>
-                            <mat-list-item>
-                                <span>0 / 0</span>
-                                <mat-progress-bar mode="determinate" value="0"
-                                    class="custom-progress-bar"></mat-progress-bar>
-                            </mat-list-item>
-                            <mat-list-item>
-                                <span>--</span>
-                            </mat-list-item>
-                            <mat-list-item>
-                                <span class="id">*---*</span>
-                            </mat-list-item>
-                        </mat-list>
-                    </mat-card-content>
-                </mat-card>
-            </div>
-            }
+
+    }@else{
+    <div class="grid-card">
+        <mat-card class="custon-card">
+            <mat-card-header>
+                <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
+                <mat-card-title class="card-title">Titulo Livro</mat-card-title>
+                <mat-card-subtitle class="card-subtitle">autor</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content class="card-body">
+                <mat-list>
+                    <mat-list-item>
+                        <span>0 / 0</span>
+                        <mat-progress-bar mode="determinate" value="0" class="custom-progress-bar"></mat-progress-bar>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <span>--</span>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <span class="id">*---*</span>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    }
 </div>
