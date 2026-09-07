@@ -8,11 +8,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbar, MatToolbarRow } from "@angular/material/toolbar";
 import { RouterLink } from "@angular/router";
 import { BookService } from '../../core/service/book.service';
+import { DashboardService } from '../../core/service/dashboard.service';
 import { FeedbackService } from '../../core/service/feedback.service';
 import { StatusLeitura } from '../../shared/enums/status-leitura';
 import { BookResponse } from '../../shared/models/book-response';
-import { ContinueReading } from '../../shared/models/continue.reading';
-import { NextReading } from '../../shared/models/next-reading';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,9 +31,9 @@ import { NextReading } from '../../shared/models/next-reading';
 })
 export class DashboardComponent implements OnInit {
 
-  listBooks: BookResponse[] = [];
-  proximasLeituras: NextReading[] = [];
-  continuarLeitura: ContinueReading | null = null;
+
+  proximasLeituras: BookResponse[] = [];
+  continuarLeitura: BookResponse[] = [];
 
   totalLivros: number = 0;
   totalLendo: number = 0;
@@ -42,20 +41,23 @@ export class DashboardComponent implements OnInit {
   totalConcluidos: number = 0;
   totalAbandonados: number = 0;
 
-  constructor(private bookService: BookService, private feedBack: FeedbackService) {
+  constructor(private bookService: BookService, private feedBack: FeedbackService, private dashboardService: DashboardService) {
   }
 
   ngOnInit(): void {
-    this.carregarLivros();
+    this.carregarResumo()
+    this.carregarContinuarLeitura();
+    this.carregarProximasLeituras();
   }
 
-  carregarLivros() {
-    this.bookService.listarLivros(0, 100, null, null).subscribe({
-      next: (books) => {
-        this.listBooks = books.content;
-        this.calcularResumo();
-        this.carregarProximasLeituras();
-        this.carregarContinuarLeitura();
+  carregarResumo() {
+    this.dashboardService.buscarResumo().subscribe({
+      next: (resumo) => {
+        this.totalLivros = resumo.totalLivros;
+        this.totalQueroLer = resumo.totalLivroPorStatus[StatusLeitura.QUERO_LER];
+        this.totalLendo = resumo.totalLivroPorStatus[StatusLeitura.LENDO];
+        this.totalConcluidos = resumo.totalLivroPorStatus[StatusLeitura.CONCLUIDO];
+        this.totalAbandonados = resumo.totalLivroPorStatus[StatusLeitura.ABANDONEI];
       },
       error: (error) => {
         if (error.error?.mensagem) {
@@ -67,41 +69,42 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  calcularResumo() {
-    this.totalLivros = this.listBooks.length;
-    this.totalLendo = this.listBooks.filter(b => b.statusLeitura === StatusLeitura.LENDO).length
-    this.totalConcluidos = this.listBooks.filter(b => b.statusLeitura === StatusLeitura.CONCLUIDO).length
-    this.totalQueroLer = this.listBooks.filter(b => b.statusLeitura === StatusLeitura.QUERO_LER).length
-    this.totalAbandonados = this.listBooks.filter(b => b.statusLeitura === StatusLeitura.ABANDONEI).length
-  }
-
   carregarProximasLeituras() {
-    this.proximasLeituras = this.listBooks.map(livro => {
-      return {
-        id: livro.id,
-        titulo: livro.titulo,
-        autor: livro.autor,
-        statusLeitura: livro.statusLeitura
+    this.bookService.listarLivros(0, 3, StatusLeitura.QUERO_LER, null).subscribe({
+      next: (book) => {
+        this.proximasLeituras = book.content;
+      },
+      error: (error) => {
+        if (error.error?.mensagem) {
+          this.feedBack.showOnMessage(error.error?.mensagem, 'OK');
+        } else {
+          this.feedBack.showOnMessage('Erro ao carregar as informações', 'OK');
+        }
       }
-    }).filter(livro => livro.statusLeitura === StatusLeitura.QUERO_LER)
+    })
   }
 
   carregarContinuarLeitura() {
-    const livroEncontrado = this.listBooks.find(livro => livro.statusLeitura === StatusLeitura.LENDO)
-    if (livroEncontrado?.statusLeitura === StatusLeitura.LENDO) {
-      this.continuarLeitura = livroEncontrado
-    }
-    else {
-      this.continuarLeitura = null;
-    }
+    this.bookService.listarLivros(0, 3, StatusLeitura.LENDO, null).subscribe({
+      next: (book) => {
+        this.continuarLeitura = book.content;
+      },
+      error: (error) => {
+        if (error.error?.mensagem) {
+          this.feedBack.showOnMessage(error.error?.mensagem, 'OK');
+        } else {
+          this.feedBack.showOnMessage('Erro ao carregar as informações', 'OK');
+        }
+      }
+    })
   }
 
-  get progressoLeituraAtual(): number {
+  progressoLeituraAtual(book: BookResponse): number {
 
-    if (!this.continuarLeitura || !this.continuarLeitura.totalPaginas) {
+    if (!book || !book.totalPaginas) {
       return 0;
     }
-    const percentual = (this.continuarLeitura.paginasLidas * 100) / this.continuarLeitura.totalPaginas;
+    const percentual = (book.paginasLidas * 100) / book.totalPaginas;
 
     return Math.min(100, Math.round(percentual));
   }

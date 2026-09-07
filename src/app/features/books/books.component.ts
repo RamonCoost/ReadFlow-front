@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -20,7 +21,8 @@ import { BookResponse } from '../../shared/models/book-response';
 import { PageResponse } from '../../shared/models/page-response';
 import { DeleteBookDialogComponent } from '../delete-book-dialog/delete-book-dialog.component';
 import { EditBookDialogComponent } from '../edit-book-dialog/edit-book-dialog.component';
-
+import { BreakpointObserver } from '@angular/cdk/layout';
+ 
 
 
 @Component({
@@ -39,6 +41,7 @@ import { EditBookDialogComponent } from '../edit-book-dialog/edit-book-dialog.co
     ReactiveFormsModule,
     MatButtonModule,
     MatMenuModule,
+    MatPaginatorModule,
   ],
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
@@ -53,10 +56,11 @@ export class BooksComponent implements OnInit {
   searchControl = new FormControl('');
   readonly StatusLeitura = StatusLeitura;
   protected readonly currentPage = signal(0);
-  protected readonly pageSize = signal(5);
+  protected readonly pageSize = signal(10);
+  
 
-  constructor(private bookService: BookService, private matDialog: MatDialog, private feedBack: FeedbackService) {
-  }
+  constructor(private bookService: BookService, private matDialog: MatDialog,
+  private feedBack: FeedbackService, private breakPointObserver: BreakpointObserver){}
 
 
   ngOnInit(): void {
@@ -67,6 +71,20 @@ export class BooksComponent implements OnInit {
         this.currentPage.set(0);
         this.carregarLivros();
       })
+
+    this.breakPointObserver.observe('(max-width: 768px)')
+    .subscribe(resultado =>{
+      if(resultado.matches){
+        this.pageSize.set(4);
+        this.currentPage.set(0);
+        this.carregarLivros();
+      }else{
+        this.pageSize.set(10);
+        this.currentPage.set(0);
+        this.carregarLivros();
+      }
+      
+    })
   }
 
 
@@ -87,18 +105,10 @@ export class BooksComponent implements OnInit {
     });
   }
 
-  proximaPagina() {
-    if (this.pagination() && !this.pagination()?.last) {
-      this.currentPage.update(atual => atual + 1);
-      this.carregarLivros();
-    }
-  }
-
-  paginaAnterior() {
-    if (this.pagination() && !this.pagination()?.first) {
-      this.currentPage.update(atual => atual - 1);
-      this.carregarLivros();
-    }
+  AlterarPagina(event: PageEvent) {
+    this.currentPage.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
+    this.carregarLivros();
   }
 
   filtrarPorStatus(status: StatusLeitura | null) {
@@ -145,4 +155,7 @@ export class BooksComponent implements OnInit {
       }
     })
   }
+
+
+
 }
