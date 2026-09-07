@@ -13,22 +13,18 @@
             <mat-card-header class="card-header">
                 <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
                 <mat-card-title class="card-title">Continuar Leitura</mat-card-title>
-                @if (continuarLeitura) {
-                <mat-card-subtitle class="card-subtitle">
-                    {{continuarLeitura.titulo}}
-                </mat-card-subtitle>
-                }
             </mat-card-header>
 
             <mat-card-content class="card-body">
-                @if (continuarLeitura) {
-                    <div class="progress-container">
-                        <!-- Substitua pelos atributos de páginas reais da sua API se houver -->
-                        <span class="progress-text">{{continuarLeitura.paginasLidas}} / {{continuarLeitura.totalPaginas}} páginas</span>
-                        <mat-progress-bar mode="determinate" [value]="progressoLeituraAtual" class="custom-progress-bar"></mat-progress-bar>
-                    </div>
-                }@else {
-                <span class="empty-state">Não há leitura em andamento</span>
+                @for (book of continuarLeitura; track book.id) {
+                <mat-card-subtitle class="card-subtitle">{{book.titulo}}</mat-card-subtitle>   
+                <div class="progress-container">
+                    <span class="progress-text">{{book.paginasLidas}} / {{book.totalPaginas}} páginas</span>
+                    <mat-progress-bar mode="determinate" [value]="progressoLeituraAtual(book)"
+                        class="custom-progress-bar"></mat-progress-bar>
+                </div>
+                } @empty {
+                     <span class="empty-state">Não há leitura em andamento</span>
                 }
             </mat-card-content>
 
@@ -72,7 +68,7 @@
                     <span class="kpi-label">Total de Livros</span>
                 </div>
 
-               <div class="kpi-sub-stats">
+                <div class="kpi-sub-stats">
                     <div class="stat-item"><strong>{{ totalLendo }}</strong> Lendo</div>
                     <div class="stat-item" id="quero-ler"><strong>{{ totalQueroLer }}</strong> Quero ler</div>
                     <div class="stat-item"><strong>{{ totalConcluidos }}</strong> Concluídos</div>
@@ -82,4 +78,3 @@
         </mat-card>
     </div>
 </div>
-
