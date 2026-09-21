@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { StatusLeitura } from '../../shared/enums/status-leitura';
 import { BookResponse } from '../../shared/models/book-response';
+import { BooksSearchResponse } from '../../shared/models/books-search-response';
 import { CreateBookRequest } from '../../shared/models/create-book-request';
 import { PageResponse } from '../../shared/models/page-response';
 import { UpdateBookRequest } from '../../shared/models/update-book-request';
@@ -37,6 +38,10 @@ export class BookService {
     }
 
     return this.http.get<PageResponse<BookResponse>>(`${this.url}/livros`, { params });
+  }
+
+  pesquisaLivros(termo: string): Observable<BooksSearchResponse[]> {
+    return this.http.get<BooksSearchResponse[]>(`${this.url}/pesquisa`, { params: { termo } })
   }
 
   criarLivro(body: CreateBookRequest): Observable<BookResponse> {
