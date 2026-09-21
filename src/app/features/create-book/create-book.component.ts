@@ -1,5 +1,5 @@
 import { Component, signal, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from "@angular/material/button";
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,7 +10,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
 import { BookService } from '../../core/service/book.service';
 import { FeedbackService } from '../../core/service/feedback.service';
+import { BooksSearchResponse } from '../../shared/models/books-search-response';
 import { validarLimitePaginasLidas, VerificadorErroPaginasLidas } from '../../shared/validators/bookValidator';
+import { MatListModule } from '@angular/material/list';
+import { CreateBookRequest } from '../../shared/models/create-book-request';
 
 
 @Component({
@@ -23,8 +26,10 @@ import { validarLimitePaginasLidas, VerificadorErroPaginasLidas } from '../../sh
     ReactiveFormsModule,
     MatButton,
     MatIcon,
-    MatProgressSpinner
-  ],
+    MatProgressSpinner,
+    FormsModule,
+    MatListModule
+],
   templateUrl: './create-book.component.html',
   styleUrl: './create-book.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -33,6 +38,14 @@ export class CreateBookComponent {
   form: FormGroup;
 
   loading = signal<boolean>(false);
+
+  termoPesquisa = signal<string>('');
+
+  mostrarFormulario = signal<boolean>(false);
+
+  listaPesquisaLivros = signal<BooksSearchResponse[]>([]);
+
+  livroSelecionado = signal<BooksSearchResponse | null>(null);
 
   public readonly erroPaginasLidas = new VerificadorErroPaginasLidas();
 
@@ -65,6 +78,49 @@ export class CreateBookComponent {
     return this.form.get('paginasLidas');
   }
 
+  pesquisarLivros() {
+    const termo = this.termoPesquisa().trim();
+    if (termo === '') {
+      return;
+    }
+    this.bookService.pesquisaLivros(termo).subscribe({
+      next: (response) => {
+        this.listaPesquisaLivros.set(response);
+      }
+    });
+  }
+
+  limparPesquisa(){
+    this.termoPesquisa.set('');
+    this.listaPesquisaLivros.set([]);
+    this.mostrarFormulario.set(false);
+    this.livroSelecionado.set(null);
+  }
+
+  selecionarLivro(book: BooksSearchResponse) {
+    this.livroSelecionado.set(book);
+    this.form.patchValue({
+      titulo: book.titulo,
+      autor: book.autores ? book.autores[0] : '',
+      totalPaginas: book.totalPaginas ? book.totalPaginas : null
+    });
+    this.mostrarFormulario.set(true);
+
+    console.log(book.capa);
+  }
+
+  trocarLivro() {
+    this.livroSelecionado();
+    this.mostrarFormulario.set(false);
+    this.listaPesquisaLivros();
+    this.form.reset();
+  }
+
+  adicionarManualmente() {
+    this.mostrarFormulario.set(true);
+    this.livroSelecionado.set(null);
+    this.form.reset();
+  }
 
   submit() {
     if (this.form.invalid) {
@@ -72,9 +128,14 @@ export class CreateBookComponent {
       return;
     }
     this.loading.set(true);
+
     const formData = this.form.value;
-    this.bookService.criarLivro(formData).subscribe({
-      next: (response) => {
+    const book: CreateBookRequest = {
+      ...formData,
+      capa: this.livroSelecionado()?.capa ?? null
+    }
+    this.bookService.criarLivro(book).subscribe({
+      next: () => {
         this.loading.set(false);
         this.router.navigate(['/books'])
         this.feedBack.showOnMessage('livro adicionado com sucesso.', 'OK')
