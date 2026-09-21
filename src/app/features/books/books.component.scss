@@ -46,13 +46,16 @@
 
 .book-container .status-book {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     margin: 16px;
     gap: 8px;
 
     .bnt {
         border-radius: 8px;
+        padding: 12px;
         transition: background-color 0.2s ease, color 0.2s ease;
+
     }
 
     .bnt.ativo {
@@ -62,31 +65,44 @@
 
 }
 
+.book-container .card-cover {
+    height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.book-container .image {
+    max-height: 100%;
+    width: 100%;
+    max-width: 140px;
+    height: auto;
+    object-fit: contain;
+}
+
+.book-container .card-header {
+    min-height: 80px;
+}
 
 .book-container .grid-card {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 8px;
-    margin: 16px;
+    margin: 16px 16px 8px;
 }
 
 .book-container .custon-card {
     background-color: #2A2E31;
     border: 1px solid #3A3F43;
     border-radius: 8px;
-    min-height: 260px;
+    min-height: 250px;
 
     box-shadow: none;
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-
-
-    .card-icon {
-        color: #8A7A55;
-        margin-right: 16px;
-    }
+    justify-content: flex-start;
 
 
 
@@ -94,17 +110,41 @@
         color: #E6E7E8;
         font-size: 1.15rem;
         font-weight: 600;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
     }
 
     .card-subtitle {
         color: #A8ACAF;
         font-size: 0.9rem;
-        margin-top: 4px;
     }
 
     .status {
         color: #E6E7E8;
+        border-radius: 25px;
+        border: 1px solid #E6E7E8;
+        padding: 4px 8px;
     }
+
+    .LENDO {
+        background-color: #3B6E8C;
+    }
+
+    .CONCLUIDO {
+        background-color: #417255;
+    }
+
+    .QUERO_LER {
+        background-color: #C9A054;
+    }
+
+    .ABANDONEI {
+        background-color: #B96D43;
+    }
+
 
 
     .card-actions {
@@ -114,6 +154,7 @@
         margin: 8px;
         padding: 8px;
         gap: 16px;
+        margin-top: auto;
 
         .delete {
             color: #c85a54;
@@ -127,11 +168,23 @@
     }
 }
 
+.book-container .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+
+    .info-status {
+        margin-top: 4px;
+    }
+}
+
 .book-container .pagination {
     display: flex;
     align-items: end;
     justify-content: center;
     gap: 8px;
+    margin: 8px;
 }
 
 .book-container .book-paginator {
@@ -161,18 +214,23 @@
 
     .book-container .search-book {
         width: 90%;
+        height: 70px;
     }
 
     .book-container .text-action {
         display: none;
     }
 
-    
-
     .book-container .status-book {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin: 16px;
+        margin: 8px;
+    }
+}
+
+@media (max-width: 380px) {
+    .book-container .grid-card {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 }

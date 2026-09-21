@@ -34,24 +34,32 @@
     <div class="grid-card">
         @for (book of listBooks; track book.id) {
         <mat-card class="custon-card">
+            <div class="card-cover">
+                @if (book.capa) {
+                    <img [src]="book.capa" alt="capa do livro" class="image">
+                }@else {
+                    <img src="images/book-placeholder.webp" alt="placeholder da capa" class="image">
+                }
+            </div>
             <mat-card-header class="card-header">
-                <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
                 <mat-card-title class="card-title">{{ book.titulo }}</mat-card-title>
                 <mat-card-subtitle class="card-subtitle">{{ book.autor }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content class="card-body">
 
-                <mat-list>
-                    <mat-list-item>
+                <div class="card-content">
+                    <div class="info-book">
                         <span> {{book.paginasLidas}} / {{book.totalPaginas}} paginas</span>
                         <mat-progress-bar mode="determinate" [value]="progressoLeituraAtual(book)"
                             class="custom-progress-bar"></mat-progress-bar>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <span class="status">{{mapStatus[book.statusLeitura]}}</span>
-                    </mat-list-item>
+                    </div>
+                    <div class="info-status">
+                        <span class="status" [ngClass]="book.statusLeitura">
+                            {{mapStatus[book.statusLeitura]}}
+                        </span>
+                    </div>
 
-                </mat-list>
+                </div>
             </mat-card-content>
             <div class="card-actions">
                 <button mat-button class="edit" (click)="editarLivro(book)">
@@ -68,8 +76,10 @@
         }
     </div>
     <div class="pagination">
-        <mat-paginator  hidePageSize="disable" [length]="pagination()?.totalElements" [pageSize]="pageSize()" [pageIndex]="currentPage()"
-            (page)="AlterarPagina($event)" class="book-paginator"></mat-paginator>
+        @if (listBooks.length) {
+            <mat-paginator  hidePageSize="disable" [length]="pagination()?.totalElements" [pageSize]="pageSize()" [pageIndex]="currentPage()"
+            (page)="AlterarPagina($event)" class="book-paginator"></mat-paginator>  
+        }
     </div>
 
 

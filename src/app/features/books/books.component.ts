@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit, signal, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,8 +22,8 @@ import { BookResponse } from '../../shared/models/book-response';
 import { PageResponse } from '../../shared/models/page-response';
 import { DeleteBookDialogComponent } from '../delete-book-dialog/delete-book-dialog.component';
 import { EditBookDialogComponent } from '../edit-book-dialog/edit-book-dialog.component';
-import { BreakpointObserver } from '@angular/cdk/layout';
- 
+import { NgClass } from '@angular/common';
+
 
 
 @Component({
@@ -42,6 +43,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
     MatButtonModule,
     MatMenuModule,
     MatPaginatorModule,
+    NgClass
   ],
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
@@ -57,10 +59,10 @@ export class BooksComponent implements OnInit {
   readonly StatusLeitura = StatusLeitura;
   protected readonly currentPage = signal(0);
   protected readonly pageSize = signal(10);
-  
+
 
   constructor(private bookService: BookService, private matDialog: MatDialog,
-  private feedBack: FeedbackService, private breakPointObserver: BreakpointObserver){}
+    private feedBack: FeedbackService, private breakPointObserver: BreakpointObserver) { }
 
 
   ngOnInit(): void {
@@ -73,18 +75,18 @@ export class BooksComponent implements OnInit {
       })
 
     this.breakPointObserver.observe('(max-width: 768px)')
-    .subscribe(resultado =>{
-      if(resultado.matches){
-        this.pageSize.set(4);
-        this.currentPage.set(0);
-        this.carregarLivros();
-      }else{
-        this.pageSize.set(10);
-        this.currentPage.set(0);
-        this.carregarLivros();
-      }
-      
-    })
+      .subscribe(resultado => {
+        if (resultado.matches) {
+          this.pageSize.set(4);
+          this.currentPage.set(0);
+          this.carregarLivros();
+        } else {
+          this.pageSize.set(10);
+          this.currentPage.set(0);
+          this.carregarLivros();
+        }
+
+      })
   }
 
 
