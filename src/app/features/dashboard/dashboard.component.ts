@@ -12,6 +12,8 @@ import { DashboardService } from '../../core/service/dashboard.service';
 import { FeedbackService } from '../../core/service/feedback.service';
 import { StatusLeitura } from '../../shared/enums/status-leitura';
 import { BookResponse } from '../../shared/models/book-response';
+import { MatDialog } from '@angular/material/dialog';
+import { EditBookDialogComponent } from '../edit-book-dialog/edit-book-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,6 +45,7 @@ export class DashboardComponent implements OnInit {
     private bookService: BookService,
     private feedBack: FeedbackService,
     private dashboardService: DashboardService,
+    private matDialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -115,5 +118,17 @@ export class DashboardComponent implements OnInit {
     const percentual = (book.paginasLidas * 100) / book.totalPaginas;
 
     return Math.min(100, Math.round(percentual));
+  }
+
+  editarLivro(book: BookResponse) {
+    const dialogRef = this.matDialog.open(EditBookDialogComponent, {
+      data: book,
+    });
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this.carregarContinuarLeitura();
+        this.carregarResumo();
+      }
+    });
   }
 }

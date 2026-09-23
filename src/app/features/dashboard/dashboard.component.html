@@ -19,7 +19,7 @@
 
       <mat-card-content class="card-body">
         @for (book of continuarLeitura; track book.id) {
-          <div class="dashboard-cover">
+          <div class="dashboard-cover" (click)="editarLivro(book)">
             @if (book.capa) {
               <img [src]="book.capa" alt="foto da capa" class="dashboard-img" />
             } @else {
