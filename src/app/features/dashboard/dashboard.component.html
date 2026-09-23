@@ -1,80 +1,128 @@
 <div class="dashboard-container">
-    <mat-toolbar class="dashboard-toolbar">
-        <mat-toolbar-row>
-            <h2 class="toolbar-title">DASHBOARD</h2>
-        </mat-toolbar-row>
-        <mat-toolbar-row class="toolbar-subtitle-row">
-            <span class="toolbar-subtitle">Acompanhe seu progresso de leitura...</span>
-        </mat-toolbar-row>
-    </mat-toolbar>
+  <mat-toolbar class="dashboard-toolbar">
+    <mat-toolbar-row>
+      <h2 class="toolbar-title">DASHBOARD</h2>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="toolbar-subtitle-row">
+      <span class="toolbar-subtitle"
+        >Acompanhe seu progresso de leitura...</span
+      >
+    </mat-toolbar-row>
+  </mat-toolbar>
 
-    <div class="dashboard-grid">
-        <mat-card class="custom-card">
-            <mat-card-header class="card-header">
-                <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
-                <mat-card-title class="card-title">Continuar Leitura</mat-card-title>
-            </mat-card-header>
+  <div class="dashboard-grid">
+    <mat-card class="custom-card">
+      <mat-card-header class="card-header">
+        <mat-icon mat-card-avatar class="card-icon">menu_book</mat-icon>
+        <mat-card-title class="card-title">Continuar Leitura</mat-card-title>
+      </mat-card-header>
 
-            <mat-card-content class="card-body">
-                @for (book of continuarLeitura; track book.id) {
-                <mat-card-subtitle class="card-subtitle">{{book.titulo}}</mat-card-subtitle>   
-                <div class="progress-container">
-                    <span class="progress-text">{{book.paginasLidas}} / {{book.totalPaginas}} páginas</span>
-                    <mat-progress-bar mode="determinate" [value]="progressoLeituraAtual(book)"
-                        class="custom-progress-bar"></mat-progress-bar>
-                </div>
-                } @empty {
-                     <span class="empty-state">Não há leitura em andamento</span>
-                }
-            </mat-card-content>
+      <mat-card-content class="card-body">
+        @for (book of continuarLeitura; track book.id) {
+          <div class="dashboard-cover">
+            @if (book.capa) {
+              <img [src]="book.capa" alt="foto da capa" class="dashboard-img" />
+            } @else {
+              <img
+                src="/images/book-placeholder.webp"
+                alt="book-placeholder"
+                class="dashboard-img"
+              />
+            }
+            <div class="dashboard-content">
+              <mat-card-subtitle class="card-subtitle">{{
+                book.titulo
+              }}</mat-card-subtitle>
 
-        </mat-card>
+              <div class="progress-container">
+                <span class="progress-text"
+                  >{{ book.paginasLidas }} /
+                  {{ book.totalPaginas }} páginas</span
+                >
+                <mat-progress-bar
+                  mode="determinate"
+                  [value]="progressoLeituraAtual(book)"
+                  class="custom-progress-bar"
+                ></mat-progress-bar>
+              </div>
+            </div>
+          </div>
+        } @empty {
+          <span class="empty-state">Não há leitura em andamento</span>
+        }
+      </mat-card-content>
+    </mat-card>
 
-        <mat-card class="custom-card">
-            <mat-card-header class="card-header">
-                <mat-icon mat-card-avatar class="card-icon">collections_bookmarl</mat-icon>
-                <mat-card-title class="card-title">Proximas Leituras</mat-card-title>
-            </mat-card-header>
+    <mat-card class="custom-card">
+      <mat-card-header class="card-header">
+        <mat-icon mat-card-avatar class="card-icon"
+          >collections_bookmarl</mat-icon
+        >
+        <mat-card-title class="card-title">Proximas Leituras</mat-card-title>
+      </mat-card-header>
 
-            <mat-card-content class="card-body">
-                @if (proximasLeituras.length > 0) {
-                <mat-list class="custom-mat-list">
-                    @for (book of proximasLeituras.slice(0, 3); track book.id) {
-                    <mat-list-item class="custom-list-item">
-                        <span matListItemTitle class="book-title">{{ book.titulo }}</span>
-                        <span matListItemLine class="book-author">{{ book.autor }}</span>
-                    </mat-list-item>
-                    }
-                </mat-list>
-                }@else {
-                <span class="empty-state">Não há livros na fila</span>
-                }
-            </mat-card-content>
+      <mat-card-content class="card-body">
+        @if (proximasLeituras.length > 0) {
+          @for (book of proximasLeituras; track book.id) {
+            <div class="next-reading">
+              @if (book.capa) {
+                <img
+                  [src]="book.capa"
+                  alt="capa do livro"
+                  class="next-reading-img"
+                />
+              } @else {
+                <img
+                  src="/images/book-placeholder.webp"
+                  alt="book-placeholder"
+                  class="next-reading-img"
+                />
+              }
+              <div class="next-reading-info">
+                <span class="book-title">{{ book.titulo }}</span>
+                <span class="book-author">{{ book.autor }}</span>
+              </div>
+            </div>
+          }
+        } @else {
+          <span class="empty-state">Não há livros na fila</span>
+        }
+      </mat-card-content>
 
-            <mat-card-actions class="card-actions">
-                <button mat-flat-button class="bnt-primary" routerLink="/books">Ver Biblioteca</button>
-            </mat-card-actions>
-        </mat-card>
+      <mat-card-actions class="card-actions">
+        <button mat-flat-button class="bnt-primary" routerLink="/books">
+          Ver Biblioteca
+        </button>
+      </mat-card-actions>
+    </mat-card>
 
-        <mat-card class="custom-card">
-            <mat-card-header class="card-header">
-                <mat-icon mat-card-avatar class="card-icon">bar_chart</mat-icon>
-                <mat-card-title class="card-title">Resumo</mat-card-title>
-            </mat-card-header>
+    <mat-card class="custom-card">
+      <mat-card-header class="card-header">
+        <mat-icon mat-card-avatar class="card-icon">bar_chart</mat-icon>
+        <mat-card-title class="card-title">Resumo</mat-card-title>
+      </mat-card-header>
 
-            <mat-card-content class="card-body summary-body">
-                <div class="kpi-main-block">
-                    <span class="kpi-number">{{totalLivros}}</span>
-                    <span class="kpi-label">Total de Livros</span>
-                </div>
+      <mat-card-content class="card-body summary-body">
+        <div class="kpi-main-block">
+          <span class="kpi-number">{{ totalLivros }}</span>
+          <span class="kpi-label">Total de Livros</span>
+        </div>
 
-                <div class="kpi-sub-stats">
-                    <div class="stat-item"><strong>{{ totalLendo }}</strong> Lendo</div>
-                    <div class="stat-item" id="quero-ler"><strong>{{ totalQueroLer }}</strong> Quero ler</div>
-                    <div class="stat-item"><strong>{{ totalConcluidos }}</strong> Concluídos</div>
-                    <div class="stat-item" id="abandonado"><strong>{{ totalAbandonados }}</strong> Abandonados</div>
-                </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
+        <div class="kpi-sub-stats">
+          <div class="stat-item">
+            <strong>{{ totalLendo }}</strong> Lendo
+          </div>
+          <div class="stat-item" id="quero-ler">
+            <strong>{{ totalQueroLer }}</strong> Quero ler
+          </div>
+          <div class="stat-item">
+            <strong>{{ totalConcluidos }}</strong> Concluídos
+          </div>
+          <div class="stat-item" id="abandonado">
+            <strong>{{ totalAbandonados }}</strong> Abandonados
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
