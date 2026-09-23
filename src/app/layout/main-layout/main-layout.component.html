@@ -1,24 +1,28 @@
 <mat-sidenav-container class="app-container">
-    <mat-sidenav #drawer [mode]="isMobile ? 'over': 'side'" [opened]="!isMobile" class="mat-sidebar">
+  <mat-sidenav
+    #drawer
+    [mode]="isMobile ? 'over' : 'side'"
+    [opened]="!isMobile"
+    class="mat-sidebar"
+  >
+    @if (isMobile) {
+      <button mat-icon-button (click)="drawer.close()" class="close-button">
+        <mat-icon id="close">close</mat-icon>
+      </button>
+    }
+    <app-sidebar />
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="main-content">
+      <div class="mobile-header">
         @if (isMobile) {
-        <button mat-icon-button (click)="drawer.close()" class="close-button">
-            <mat-icon id="close">close</mat-icon>
-        </button>
+          <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon id="open">menu</mat-icon>
+          </button>
+          <img src="/images/logo.png" alt="logo" />
         }
-        <app-sidebar />
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <div class="main-content">
-            <div class="mobile-header">
-                @if (isMobile) {
-                <button mat-icon-button (click)="drawer.toggle()">
-                    <mat-icon id="open">menu</mat-icon>
-                </button>
-                <img src="/images/logo.png" alt="logo">
-                }
-                
-            </div>
-            <router-outlet />
-        </div>
-    </mat-sidenav-content>
+      </div>
+      <router-outlet />
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
