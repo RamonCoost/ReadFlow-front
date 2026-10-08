@@ -7,36 +7,42 @@ import { RegisterComponent } from './features/register/pages/register.component'
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { LoginComponent } from './features/login/pages/login.component';
 import { authGuard } from './core/guards/auth.guard';
-
-
+import { ConfirmEmailComponent } from './features/confirm-email/confirm-email.component';
 
 export const routes: Routes = [
-    {
-        path: '', component: HomeComponent
-    },
-    {
-        path: 'register', component: RegisterComponent 
-    },
-    {
-        path: 'login', component: LoginComponent
-    },
-    {
-        path: '',
-        component: MainLayoutComponent,
-        canActivate: [authGuard],
-        children: [
-            {
-                path: 'dashboard',
-                component: DashboardComponent
-            },
-            {
-                path: 'books',
-                component: BooksComponent,
-            },
-            {
-                path: 'create-book',
-                component: CreateBookComponent
-            },
-        ]
-    }
+  {
+    path: '',
+    component: HomeComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'confirmar-email',
+    component: ConfirmEmailComponent,
+  },
+  {
+    path: '',
+    component: MainLayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
+        path: 'books',
+        component: BooksComponent,
+      },
+      {
+        path: 'create-book',
+        component: CreateBookComponent,
+      },
+    ],
+  },
 ];
