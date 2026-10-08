@@ -1,0 +1,68 @@
+<div class="container">
+  <img class="readflow-logo" src="/images/readflow-logo.png" alt="logo" />
+  <mat-card class="card">
+    @if (loading()) {
+      <div class="confirmation-card">
+        <div class="loading-icon">
+          <img class="loading-circle" src="/images/loading-circle.png" alt="" />
+          <img class="loading-book" src="/images/loading-book.png" alt="" />
+        </div>
+        <span class="title">Validando...</span>
+        <span class="subtitle">
+          Estamos verificando seu link de confirmação.
+        </span>
+      </div>
+    }
+    @if (mensagemSucesso().length) {
+      <div class="confirmation-card">
+        <img
+          class="embrema-sucesso"
+          src="/images/embrema-sucesso.png"
+          alt="embrema-sucesso"
+        />
+        <span class="title">Email Verificado</span>
+        <span class="subtitle">{{ mensagemSucesso() }}</span>
+        <button mat-flat-button routerLink="/login">Ir para o login</button>
+      </div>
+    }
+    @if (mensagemErro().length) {
+      <div class="confirmation-card">
+        <img
+          class="embrema-error"
+          src="/images/embrema-erro.png"
+          alt="embrema-erro"
+        />
+        <span class="title">{{ mensagemErro() }}</span>
+        <span class="subtitle">
+          O link de confirmação expirou ou é inválido. Informe seu e-mail para
+          receber um novo link.
+        </span>
+        <mat-form-field>
+          <input
+            #campoEmail
+            matInput
+            placeholder="Digite seu email"
+            (input)="email.set(campoEmail.value)"
+            [value]="email()"
+          />
+        </mat-form-field>
+        <button
+          mat-flat-button
+          [disabled]="loadingReenvio()"
+          (click)="reenviarEmail()"
+        >
+          @if (loadingReenvio()) {
+            <span><mat-spinner [diameter]="20"></mat-spinner></span>
+          } @else {
+            Reenviar Email
+          }
+        </button>
+      </div>
+    }
+    @if (mensagemSucessoReenvio().length) {
+      <div class="confirmation-card">
+        <span>{{ mensagemSucessoReenvio() }}</span>
+      </div>
+    }
+  </mat-card>
+</div>

@@ -1,66 +1,120 @@
 <div class="register-page">
-    <app-public-header />
+  <app-public-header />
+  <div class="form-register">
+    @if (!registrationCompleted()) {
+      <mat-card class="form-card">
+        <mat-card-header class="form-header">
+          <mat-card-title class="title">Adicione uma conta</mat-card-title>
+        </mat-card-header>
 
-    <div class="form-register">
-        <mat-card class="form-card">
-            <mat-card-header class="form-header">
-                <mat-card-title class="title">Adicione uma conta</mat-card-title>
-            </mat-card-header>
+        <mat-card-content class="form-content">
+          <form [formGroup]="form" class="form-grid">
+            <mat-form-field class="input-username">
+              <mat-label>Nome</mat-label>
+              <input
+                formControlName="nome"
+                matInput
+                placeholder="Digite seu nome"
+              />
+              @if (nomeErrors) {
+                <mat-error>{{ nomeErrors }}</mat-error>
+              }
+            </mat-form-field>
 
-            <mat-card-content class="form-content">
-                <form [formGroup]="form" class="form-grid">
+            <mat-form-field class="input-email">
+              <mat-label>Email</mat-label>
+              <input
+                formControlName="email"
+                matInput
+                placeholder="Digite seu email"
+              />
+              @if (emailErrors) {
+                <mat-error>{{ emailErrors }}</mat-error>
+              }
+            </mat-form-field>
 
-                    <mat-form-field class="input-username">
-                        <mat-label>Nome</mat-label>
-                        <input formControlName="nome" matInput placeholder="Digite seu nome">
-                        @if (nomeErrors) {
-                        <mat-error>{{nomeErrors}}</mat-error>
-                        }
-                    </mat-form-field>
+            <mat-form-field class="input-password">
+              <mat-label>Senha</mat-label>
+              <input
+                formControlName="senha"
+                matInput
+                [type]="hide() ? 'password' : 'text'"
+              />
+              @if (senhaErrors) {
+                <mat-error>{{ senhaErrors }}</mat-error>
+              }
+              <button
+                type="button"
+                mat-icon-button
+                matSuffix
+                (click)="clickEvent($event)"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide()"
+                class="bnt-password"
+              >
+                <mat-icon>{{
+                  hide() ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+            </mat-form-field>
+            <mat-card-actions class="full-width">
+              @if (healthService.estadoBackend() === "Disponivel") {
+                @if (!loading()) {
+                  <button
+                    mat-flat-button
+                    [disabled]="form.invalid"
+                    (click)="submit()"
+                    class="form-bnt"
+                  >
+                    Cadastrar
+                  </button>
+                } @else {
+                  <div class="bnt-loader">
+                    <span>Cadastrando...</span>
+                    <mat-spinner [diameter]="20"></mat-spinner>
+                  </div>
+                }
+              }
+              @if (healthService.estadoBackend() === "Iniciando") {
+                <div class="bnt-loader">
+                  <span>Iniciando servidor</span>
+                  <mat-spinner [diameter]="20"></mat-spinner>
+                </div>
+              }
 
-                    <mat-form-field class="input-email">
-                        <mat-label>Email</mat-label>
-                        <input formControlName="email" matInput placeholder="Digite seu email">
-                        @if (emailErrors) {
-                        <mat-error>{{emailErrors}}</mat-error>
-                        }
-                    </mat-form-field>
-
-                    <mat-form-field class="input-password">
-                        <mat-label>Senha</mat-label>
-                        <input formControlName="senha" matInput [type]="hide() ? 'password' : 'text'" />
-                        @if (senhaErrors) {
-                        <mat-error>{{senhaErrors}}</mat-error>
-                        }
-                        <button type="button" mat-icon-button matSuffix (click)="clickEvent ($event)"
-                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()" class="bnt-password">
-                            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </button>
-                    </mat-form-field>
-                    <mat-card-actions class="full-width">
-                        @if (healthService.estadoBackend() === 'Disponivel') {
-                        <button mat-flat-button [disabled]="form.invalid" (click)="submit()"
-                            class="form-bnt">Cadastrar</button>
-                        }
-                        @if(healthService.estadoBackend() === 'Iniciando'){
-                        <div class="bnt-loader">
-                            <span>Iniciando servidor</span>
-                            <mat-spinner [diameter]="20"></mat-spinner>
-                        </div>
-                        }
-
-                        @if(healthService.estadoBackend() === 'Error'){
-                        <div class="bnt-loader">
-                            <span>Não foi possivel conectar ao servidor</span>
-                            <button mat-flat-button (click)="healthService.tentarNovamente()">Tente Novamente</button>
-                        </div>
-                        }
-
-                    </mat-card-actions>
-                </form>
-
-            </mat-card-content>
-
-        </mat-card>
-    </div>
+              @if (healthService.estadoBackend() === "Error") {
+                <div class="bnt-loader">
+                  <span>Não foi possivel conectar ao servidor</span>
+                  <button
+                    mat-flat-button
+                    (click)="healthService.tentarNovamente()"
+                  >
+                    Tente Novamente
+                  </button>
+                </div>
+              }
+            </mat-card-actions>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    } @else {
+      <mat-card class="registration-success">
+        <img
+          class="img"
+          src="/images/embrema-sucesso.png"
+          alt="embrema sucesso"
+        />
+        <span class="title"> Verifique seu e-mail </span>
+        <span class="subtitle"> Enviamos um link de confirmação para: </span>
+        <span class="email">{{ emailValue() }}</span>
+        <span class="subtitle"
+          >Acesse sua caixa de entrada e clique no link de confirmação para
+          ativar sua conta.</span
+        >
+        <mat-card-actions>
+          <button mat-flat-button routerLink="/login">Ir para Login</button>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
 </div>

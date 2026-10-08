@@ -1,16 +1,22 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButton } from "@angular/material/button";
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
-import { MatInput } from "@angular/material/input";
-import { Router } from '@angular/router';
+import { MatInput } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router, RouterLink } from '@angular/router';
+import { finalize } from 'rxjs';
 import { FeedbackService } from '../../../core/service/feedback.service';
 import { HealthService } from '../../../core/service/health.service';
 import { UserService } from '../../../core/service/user.service';
-import { PublicHeaderComponent } from "../../../layout/public-header/public-header.component";
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PublicHeaderComponent } from '../../../layout/public-header/public-header.component';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +28,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatButton,
     MatIcon,
     ReactiveFormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -30,6 +37,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export class RegisterComponent {
   form: FormGroup;
   hide = signal(true);
+  loading = signal<boolean>(false);
+  emailValue = signal<string>('');
+  registrationCompleted = signal<boolean>(false);
 
   private readonly userService = inject(UserService);
   private readonly feedBack = inject(FeedbackService);
@@ -40,31 +50,36 @@ export class RegisterComponent {
     this.form = formBuilder.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(6)]]
+      senha: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
   get nomeErrors(): string | null {
-    const nomeErroscontrol = this.form.get('nome')
-    if (nomeErroscontrol?.hasError('required')) return 'O campo "Nome" é obrigatório';
-    if (nomeErroscontrol?.hasError('minlength')) return 'O campo "Nome" deve conter no minimo 3 letras';
+    const nomeErroscontrol = this.form.get('nome');
+    if (nomeErroscontrol?.hasError('required'))
+      return 'O campo "Nome" é obrigatório';
+    if (nomeErroscontrol?.hasError('minlength'))
+      return 'O campo "Nome" deve conter no minimo 3 letras';
     return null;
   }
 
   get emailErrors(): string | null {
-    const emailErroscontrol = this.form.get('email')
-    if (emailErroscontrol?.hasError('required')) return 'O campo "Email" é obrigatório';
-    if (emailErroscontrol?.hasError('email')) return 'O campo "email" deve conter um email válido';
+    const emailErroscontrol = this.form.get('email');
+    if (emailErroscontrol?.hasError('required'))
+      return 'O campo "Email" é obrigatório';
+    if (emailErroscontrol?.hasError('email'))
+      return 'O campo "email" deve conter um email válido';
     return null;
   }
 
   get senhaErrors(): string | null {
-    const senhaErroscontrol = this.form.get('senha')
-    if (senhaErroscontrol?.hasError('required')) return 'O campo "Senha" é obrigatório';
-    if (senhaErroscontrol?.hasError('minlength')) return 'O campo "Senha" deve conter no minimo 6 números e/ou letras';
+    const senhaErroscontrol = this.form.get('senha');
+    if (senhaErroscontrol?.hasError('required'))
+      return 'O campo "Senha" é obrigatório';
+    if (senhaErroscontrol?.hasError('minlength'))
+      return 'O campo "Senha" deve conter no minimo 6 números e/ou letras';
     return null;
   }
-
 
   submit() {
     if (this.form.invalid) {
@@ -72,23 +87,31 @@ export class RegisterComponent {
       return;
     }
     const formData = this.form.getRawValue();
-    this.userService.criarUsuario(formData).subscribe({
-      next: () => {
-        this.router.navigate(['/login']);
-      },
-      error: (error) => {
-        if (error.status === 409) {
-          this.feedBack.showOnMessage(error.error.mensagem, 'OK');
-        } else {
-          this.feedBack.showOnMessage('Erro ao cadastar usuário', 'OK');
-        }
-      }
-    })
+    this.loading.set(true);
+    this.userService
+      .criarUsuario(formData)
+      .pipe(
+        finalize(() => {
+          this.loading.set(false);
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.emailValue.set(formData.email);
+          this.registrationCompleted.set(true);
+        },
+        error: (error) => {
+          if (error.status === 409) {
+            this.feedBack.showOnMessage(error.error.mensagem, 'OK');
+          } else {
+            this.feedBack.showOnMessage('Erro ao cadastar usuário', 'OK');
+          }
+        },
+      });
   }
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
-
 }
